@@ -1,0 +1,42 @@
+body {
+    font-family: sans-serif;
+}
+
+#canvas {
+    border: 1px solid black;
+    max-width: 600px; /* Limit canvas width */
+    height: auto;
+}
+
+#image-tools, #pdf-tools, #feedback-form {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 8px 16px;
+    margin: 5px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Include padding in width */
+    resize: vertical; /* Allow vertical resizing */
+}

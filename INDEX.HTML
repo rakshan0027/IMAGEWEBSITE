@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image/PDF Tools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Image/PDF Tools</h1>
+
+    <div id="image-tools">
+        <h2>Image Tools</h2>
+        <input type="file" id="imageInput" accept="image/*">
+        <br>
+        <canvas id="canvas"></canvas>
+        <br>
+        <button id="resizeButton">Resize (50%)</button>
+        <button id="downloadButton">Download Image</button>
+        <button id="convertToPdfButton">Convert to PDF</button>
+    </div>
+
+    <div id="pdf-tools">
+        <h2>PDF Tools (Limited Client-Side)</h2>
+        <p>Client-side PDF features are limited. Server-side processing is recommended for robust PDF handling.</p>
+        <input type="file" id="pdfInput" accept=".pdf">
+        <br>
+        <button id="pdfToImageButton">PDF to Image (Basic)</button>
+    </div>
+
+    <div id="feedback-form">
+        <h2>Feedback</h2>
+        <form id="feedbackForm">
+            <textarea id="feedbackText" placeholder="Enter your feedback here..."></textarea><br>
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
