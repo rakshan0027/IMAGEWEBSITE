@@ -71,7 +71,45 @@ pdfToImageButton.addEventListener('click', () => {
         alert("Please select a PDF file.");
     }
 });
+// script.js
+//... (Your existing code)
 
+// Add this function to show the progress bar
+function showProgressBar() {
+    document.getElementById("progress-bar").style.display = "block";
+}
+
+// Add this function to update the progress bar
+function updateProgressBar(percentage) {
+    document.getElementById("progress-bar").style.width = percentage + "%";
+}
+
+// Add this function to hide the progress bar
+function hideProgressBar() {
+    document.getElementById("progress-bar").style.display = "none";
+    updateProgressBar(0); // Reset progress
+}
+
+// Example of how to use the progress bar (in your image/PDF processing functions):
+convertToPdfButton.addEventListener('click', () => {
+    if (currentImage) {
+        showProgressBar(); // Show when processing starts
+
+        // Simulate some processing time (replace with your actual conversion logic)
+        setTimeout(() => {
+            updateProgressBar(75); // Update progress
+
+            setTimeout(() => {
+                updateProgressBar(100); // Complete
+
+                setTimeout(() => {
+                    alert("PDF Conversion Complete (Placeholder)");
+                    hideProgressBar(); // Hide when done
+                }, 500); // Small delay before alert
+            }, 1500); // Simulate some processing time
+        }, 1000); // Simulate some processing time
+    }
+});
 
 // Feedback Form
 const feedbackForm = document.getElementById('feedbackForm');
