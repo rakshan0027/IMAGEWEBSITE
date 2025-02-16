@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Image Converter</title>
+    <title>Image/PDF Tools</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
 </head>
 <body>
     <nav>
@@ -16,7 +16,6 @@
             <li><a href="#">Other Services</a></li>
         </ul>
     </nav>
-
     <main>
         <section id="converter-card">
             <h2>Image Converter</h2>
@@ -30,13 +29,27 @@
                 <select id="format">
                     <option value="png">PNG</option>
                     <option value="jpeg">JPEG</option>
-                    <option value="gif">GIF</option>
                 </select>
             </div>
             <button id="convertButton">Convert</button>
         </section>
-    </main>
 
+        <section id="pdf-tools">
+            <h2>PDF Tools</h2>
+            <div class="img-to-pdf">
+                <h3>Image to PDF</h3>
+                <input type="file" id="imagesToPdfInput" accept="image/*" multiple>
+                <label for="imagesToPdfInput">Select Images (5 max)</label>
+                <div id="image-previews"></div>
+                <button id="createPdfButton">Create PDF</button>
+            </div>
+            <div class="pdf-to-img">
+                <h3>PDF to Image</h3>
+                <input type="file" id="pdfToImageInput" accept=".pdf">
+                <button id="pdfToImageConvert">Convert PDF to Images</button>
+            </div>
+        </section>
+    </main>
     <footer>
         <p>&copy; 2025 AI Image Converter</p>
     </footer>
