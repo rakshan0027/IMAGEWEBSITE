@@ -1,15 +1,17 @@
+/* style.css - All the CSS from previous responses */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    background-color: #1a1a1a; /* Dark background */
-    color: #e0e0e0; /* Light text color */
+    background-color: #1a1a1a;
+    color: #e0e0e0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 nav {
-    background-color: #282828; /* Slightly lighter dark nav */
+    background-color: #282828;
+    /* Slightly lighter dark nav */
     padding: 10px;
     text-align: center;
 }
@@ -35,18 +37,22 @@ nav a {
 main {
     flex: 1;
     display: flex;
-    justify-content: center; /* Horizontally center */
-    align-items: center; /* Vertically center */
+    justify-content: center;
+    /* Horizontally center */
+    align-items: center;
+    /* Vertically center */
     padding: 20px;
 }
 
 #converter-card {
-    background-color: #282828; /* Card background */
+    background-color: #282828;
+    /* Card background */
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    width: 400px; /* Adjust width as needed */
+    width: 400px;
+    /* Adjust width as needed */
 }
 
 h2 {
@@ -55,7 +61,8 @@ h2 {
 }.input-area {
     margin-bottom: 20px;
 }.choose-file-button {
-    background-color: #383838; /* Darker button background */
+    background-color: #383838;
+    /* Darker button background */
     color: #e0e0e0;
     padding: 10px 20px;
     border-radius: 5px;
@@ -88,7 +95,8 @@ select {
 }
 
 #convertButton {
-    background: linear-gradient(to right, #00bcd4, #00acc1); /* Gradient button */
+    background: linear-gradient(to right, #00bcd4, #00acc1);
+    /* Gradient button */
     color: #fff;
     padding: 12px 25px;
     border: none;
@@ -99,7 +107,8 @@ select {
 }
 
 #convertButton:hover {
-    background: linear-gradient(to right, #00acc1, #0097a7); /* Darker gradient on hover */
+    background: linear-gradient(to right, #00acc1, #0097a7);
+    /* Darker gradient on hover */
 }
 
 footer {
@@ -107,4 +116,47 @@ footer {
     color: #909090;
     text-align: center;
     padding: 10px;
+}
+
+#image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}.image-preview {
+    max-width: 100px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style for the file input labels */
+label[for="imagesToPdfInput"],
+label[for="pdfToImageInput"] {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #383838;
+    color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+/* Style for the buttons in the PDF Tools section */
+#createPdfButton,
+#pdfToImageConvert {
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Or your preferred color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#createPdfButton:hover,
+#pdfToImageConvert:hover {
+    background-color: #0056b3;
+    /* Darker shade on hover */
 }
