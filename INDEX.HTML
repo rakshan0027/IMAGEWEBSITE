@@ -1,55 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Image/PDF Tools</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Converter</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
 </head>
 <body>
+
     <nav>
         <ul>
-            <li><a href="#">Image Converter</a></li>
-            <li><a href="#">PDF Converter</a></li>
-            <li><a href="#">Remove Background</a></li>
-            <li><a href="#">Other Services</a></li>
+            <li><a href="#image-converter">Image Converter</a></li>
+            <li><a href="#pdf-converter">PDF Converter</a></li>
+            <li><a href="#background-remover">Remove Background</a></li>
         </ul>
     </nav>
+
     <main>
-        <section id="converter-card">
+        <section id="image-converter" class="tool-section">
             <h2>Image Converter</h2>
-            <div class="input-area">
-                <label for="imageInput" class="choose-file-button">Choose File</label>
-                <input type="file" id="imageInput" accept="image/*">
-                <span id="file-name">No file chosen</span>
-            </div>
-            <div class="format-select">
-                <label for="format">Format:</label>
-                <select id="format">
-                    <option value="png">PNG</option>
-                    <option value="jpeg">JPEG</option>
-                </select>
-            </div>
+            <input type="file" id="imageInput" accept="image/*">
+            <label for="imageInput" class="file-upload-button">Choose Image</label>
+            <select id="formatSelect">
+                <option value="png">PNG</option>
+                <option value="jpg">JPG</option>
+                <option value="webp">WebP</option>
+            </select>
             <button id="convertButton">Convert</button>
+            <div id="progressBar"></div>
+            <button id="downloadButton" style="display: none;">Download</button>
         </section>
 
-        <section id="pdf-tools">
-            <h2>PDF Tools</h2>
-            <div class="img-to-pdf">
-                <h3>Image to PDF</h3>
-                <input type="file" id="imagesToPdfInput" accept="image/*" multiple>
-                <label for="imagesToPdfInput">Select Images (5 max)</label>
-                <div id="image-previews"></div>
-                <button id="createPdfButton">Create PDF</button>
-            </div>
-            <div class="pdf-to-img">
-                <h3>PDF to Image</h3>
-                <input type="file" id="pdfToImageInput" accept=".pdf">
-                <button id="pdfToImageConvert">Convert PDF to Images</button>
+        <section id="pdf-converter" class="tool-section">
+            <h2>PDF Converter</h2>
+            <input type="file" id="pdfInput" accept="image/*">
+            <label for="pdfInput" class="file-upload-button">Choose Image</label>
+            <button id="convertPdfButton">Convert to PDF</button>
+            <div id="pdfProgressBar"></div>
+            <button id="downloadPdfButton" style="display: none;">Download</button>
+        </section>
+
+        <section id="background-remover" class="tool-section">
+            <h2>Remove Background</h2>
+            <input type="file" id="bgInput" accept="image/*">
+            <label for="bgInput" class="file-upload-button">Choose Image</label>
+            <button id="removeBgButton">Remove Background</button>
+            <div id="bgProgressBar"></div>
+            <button id="downloadBgButton" style="display: none;">Download</button>
+            <div id="trial-info">
+                <p>You have <span id="trials-remaining">5</span> free trials remaining.</p>
+                <button id="premiumButton">Purchase Premium</button>
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 AI Image Converter</p>
     </footer>
