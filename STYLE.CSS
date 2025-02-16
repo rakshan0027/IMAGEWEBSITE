@@ -2,66 +2,62 @@
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    background-color: #f4f4f4; /* Light background */
-    color: #333; /* Dark text color */
+    /* Gradient background - Experiment with different gradients */
+    background: linear-gradient(to bottom right, #e0f2f7, #bbdefb); /* Light blue to a slightly darker blue */
+    color: #343a40;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure footer sticks to bottom */
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll on some effects */
 }
 
 header {
-    background-color: #333; /* Dark header */
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white header */
+    padding: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px); /* Add a subtle blur effect */
+    position: sticky; /* Sticky header */
+    top: 0;
+    z-index: 10; /* Ensure header is on top */
 }
 
 nav {
     display: flex;
-    justify-content: center; /* Center the logo */
+    justify-content: center;
     align-items: center;
 }.logo {
-    font-size: 1.8em; /* Slightly larger logo */
-    font-weight: bold;
-    color: #fff;
-}.hero {
-    padding: 60px 0; /* Increased padding */
-    text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("hero-image.jpg"); /* Example background image */
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-}.hero h1 {
-    font-size: 3em; /* Larger heading */
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow */
-}.hero p {
-    font-size: 1.4em; /* Larger paragraph text */
-    line-height: 1.7;
-    max-width: 700px;
-    margin: 0 auto;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #007bff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle logo shadow */
 }
+
+/*... (hero styles - if you add it back, see below) */
 
 main {
     padding: 40px;
     max-width: 960px;
-    margin: 20px auto; /* Added margin top/bottom */
-    flex: 1; /* Allow main to take up available space */
+    margin: 20px auto;
+    flex: 1;
+    /* Add a subtle 3D effect to main content */
+    perspective: 800px; /* Create a 3D space */
 }.tool-section {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white sections */
     padding: 30px;
     margin-bottom: 20px;
-    border-radius: 10px; /* More rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow */
-    transition: transform 0.2s; /* Add transform transition */
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    transform-style: preserve-3d; /* Needed for 3D transforms */
 }.tool-section:hover {
-    transform: translateY(-5px); /* Lift up slightly on hover */
+    transform: translateY(-8px) rotateX(5deg); /* Lift and rotate slightly on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
 }.tool-section h2 {
-    font-size: 2em; /* Larger heading */
-    margin-bottom: 25px;
-    color: #444;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #343a40;
 }.tool-content {
     display: flex;
     flex-direction: column;
@@ -69,75 +65,76 @@ main {
 }
 
 #canvas {
-    border: 1px solid #ccc;
+    border: 1px solid #eee;
     margin-bottom: 20px;
     max-width: 100%;
     height: auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for canvas */
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }.buttons {
     display: flex;
-    gap: 15px; /* Increased gap */
+    gap: 15px;
 }
 
 button,.custom-file-upload {
-    padding: 12px 25px; /* Larger buttons */
+    padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 8px; /* More rounded corners */
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1.1em; /* Slightly larger font */
-    transition: background-color 0.3s, transform 0.2s; /* Add transform transition */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to buttons */
+    font-size: 1em;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button:hover,.custom-file-upload:hover {
     background-color: #0056b3;
-    transform: scale(1.05); /* Slightly scale up on hover */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 textarea {
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    border: 1px solid #eee;
+    border-radius: 5px;
     box-sizing: border-box;
     resize: vertical;
-    font-size: 1.1em;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for textarea */
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #6c757d;
+    padding: 15px 0;
     text-align: center;
-    margin-top: auto; /* Push footer to bottom */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+    margin-top: auto;
+    border-top: 1px solid #eee;
+    backdrop-filter: blur(5px);
 }.file-input {
     display: none;
 }.custom-file-upload {
     /*... (same styles as buttons) */
 }
 
-/* Responsive Design (Example - adjust breakpoints as needed) */
+/* Responsive Design (Example) */
 @media (max-width: 768px) {
-    main {
-        padding: 20px;
-    }
+    /*... (responsive styles) */
+}
 
-  .tool-section {
-        padding: 20px;
-    }
 
-  .buttons {
-        flex-direction: column; /* Stack buttons vertically on smaller screens */
-        align-items: center; /* Center buttons */
-    }
-
-    button,.custom-file-upload {
-        width: 100%; /* Make buttons full width */
-    }
+/* Hero Section Styles (If you add it back) */.hero {
+    /*... (other hero styles) */
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("hero-image.jpg"); /* Example background image */
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 80px 0; /* Adjust padding */
+}.hero h1 {
+    /*... (hero h1 styles) */
+}.hero p {
+    /*... (hero p styles) */
 }
