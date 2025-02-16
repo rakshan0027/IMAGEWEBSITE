@@ -1,45 +1,143 @@
+/* style.css */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #f4f4f4; /* Light background */
+    color: #333; /* Dark text color */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure footer sticks to bottom */
+}
+
+header {
+    background-color: #333; /* Dark header */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+}
+
+nav {
+    display: flex;
+    justify-content: center; /* Center the logo */
+    align-items: center;
+}.logo {
+    font-size: 1.8em; /* Slightly larger logo */
+    font-weight: bold;
+    color: #fff;
+}.hero {
+    padding: 60px 0; /* Increased padding */
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("hero-image.jpg"); /* Example background image */
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}.hero h1 {
+    font-size: 3em; /* Larger heading */
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow */
+}.hero p {
+    font-size: 1.4em; /* Larger paragraph text */
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+main {
+    padding: 40px;
+    max-width: 960px;
+    margin: 20px auto; /* Added margin top/bottom */
+    flex: 1; /* Allow main to take up available space */
+}.tool-section {
+    background-color: #fff;
+    padding: 30px;
+    margin-bottom: 20px;
+    border-radius: 10px; /* More rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+    transition: transform 0.2s; /* Add transform transition */
+}.tool-section:hover {
+    transform: translateY(-5px); /* Lift up slightly on hover */
+}.tool-section h2 {
+    font-size: 2em; /* Larger heading */
+    margin-bottom: 25px;
+    color: #444;
+}.tool-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #canvas {
-    border: 1px solid black;
-    max-width: 600px; /* Limit canvas width */
-    height: auto;
-}
-
-#image-tools, #pdf-tools, #feedback-form {
-    margin-bottom: 20px;
-    padding: 10px;
     border: 1px solid #ccc;
+    margin-bottom: 20px;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for canvas */
+}.buttons {
+    display: flex;
+    gap: 15px; /* Increased gap */
 }
 
-button {
-    padding: 8px 16px;
-    margin: 5px;
-    background-color: #4CAF50;
+button,.custom-file-upload {
+    padding: 12px 25px; /* Larger buttons */
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    border-radius: 8px; /* More rounded corners */
     cursor: pointer;
-    border-radius: 5px;
+    font-size: 1.1em; /* Slightly larger font */
+    transition: background-color 0.3s, transform 0.2s; /* Add transform transition */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to buttons */
 }
 
-button:hover {
-    background-color: #45a049;
+button:hover,.custom-file-upload:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Slightly scale up on hover */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    box-sizing: border-box; /* Include padding in width */
-    resize: vertical; /* Allow vertical resizing */
+    border-radius: 8px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-size: 1.1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for textarea */
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    margin-top: auto; /* Push footer to bottom */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+}.file-input {
+    display: none;
+}.custom-file-upload {
+    /*... (same styles as buttons) */
+}
+
+/* Responsive Design (Example - adjust breakpoints as needed) */
+@media (max-width: 768px) {
+    main {
+        padding: 20px;
+    }
+
+  .tool-section {
+        padding: 20px;
+    }
+
+  .buttons {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+        align-items: center; /* Center buttons */
+    }
+
+    button,.custom-file-upload {
+        width: 100%; /* Make buttons full width */
+    }
 }
