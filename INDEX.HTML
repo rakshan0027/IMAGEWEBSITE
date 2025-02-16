@@ -1,38 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Image/PDF Tools</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Converter</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Image/PDF Tools</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Image Converter</a></li>
+            <li><a href="#">PDF Converter</a></li>
+            <li><a href="#">Remove Background</a></li>
+            <li><a href="#">Other Services</a></li>
+        </ul>
+    </nav>
 
-    <div id="image-tools">
-        <h2>Image Tools</h2>
-        <input type="file" id="imageInput" accept="image/*">
-        <br>
-        <canvas id="canvas"></canvas>
-        <br>
-        <button id="resizeButton">Resize (50%)</button>
-        <button id="downloadButton">Download Image</button>
-        <button id="convertToPdfButton">Convert to PDF</button>
-    </div>
+    <main>
+        <section id="converter-card">
+            <h2>Image Converter</h2>
+            <div class="input-area">
+                <label for="imageInput" class="choose-file-button">Choose File</label>
+                <input type="file" id="imageInput" accept="image/*">
+                <span id="file-name">No file chosen</span>
+            </div>
+            <div class="format-select">
+                <label for="format">Format:</label>
+                <select id="format">
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                    <option value="gif">GIF</option>
+                </select>
+            </div>
+            <button id="convertButton">Convert</button>
+        </section>
+    </main>
 
-    <div id="pdf-tools">
-        <h2>PDF Tools (Limited Client-Side)</h2>
-        <p>Client-side PDF features are limited. Server-side processing is recommended for robust PDF handling.</p>
-        <input type="file" id="pdfInput" accept=".pdf">
-        <br>
-        <button id="pdfToImageButton">PDF to Image (Basic)</button>
-    </div>
-
-    <div id="feedback-form">
-        <h2>Feedback</h2>
-        <form id="feedbackForm">
-            <textarea id="feedbackText" placeholder="Enter your feedback here..."></textarea><br>
-            <button type="submit">Submit Feedback</button>
-        </form>
-    </div>
+    <footer>
+        <p>&copy; 2025 AI Image Converter</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
