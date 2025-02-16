@@ -7,8 +7,15 @@ const downloadButton = document.getElementById('downloadButton');
 const convertToPdfButton = document.getElementById('convertToPdfButton');
 let currentImage;
 
+// Define drawImage function FIRST
+function drawImage(img) {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+}
+
 imageInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files;
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -17,18 +24,13 @@ imageInput.addEventListener('change', (event) => {
 
         img.onload = () => {
             currentImage = img;
-            drawImage(img);
+            drawImage(img); // Now drawImage is defined
         };
     };
 
     reader.readAsDataURL(file);
 });
 
-function drawImage(img) {
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-}
 
 resizeButton.addEventListener('click', () => {
     if (currentImage) {
@@ -71,43 +73,38 @@ pdfToImageButton.addEventListener('click', () => {
         alert("Please select a PDF file.");
     }
 });
-// script.js
-//... (Your existing code)
 
-// Add this function to show the progress bar
+// Progress Bar Functions
 function showProgressBar() {
     document.getElementById("progress-bar").style.display = "block";
 }
 
-// Add this function to update the progress bar
 function updateProgressBar(percentage) {
     document.getElementById("progress-bar").style.width = percentage + "%";
 }
 
-// Add this function to hide the progress bar
 function hideProgressBar() {
     document.getElementById("progress-bar").style.display = "none";
     updateProgressBar(0); // Reset progress
 }
 
-// Example of how to use the progress bar (in your image/PDF processing functions):
-convertToPdfButton.addEventListener('click', () => {
+// Example of progress bar usage (in convertToPdfButton - replace with actual logic)
+convertToPdfButton.addEventListener('click', () => { // Correct event listener
     if (currentImage) {
-        showProgressBar(); // Show when processing starts
+        showProgressBar();
 
-        // Simulate some processing time (replace with your actual conversion logic)
         setTimeout(() => {
-            updateProgressBar(75); // Update progress
+            updateProgressBar(75);
 
             setTimeout(() => {
-                updateProgressBar(100); // Complete
+                updateProgressBar(100);
 
                 setTimeout(() => {
                     alert("PDF Conversion Complete (Placeholder)");
-                    hideProgressBar(); // Hide when done
-                }, 500); // Small delay before alert
-            }, 1500); // Simulate some processing time
-        }, 1000); // Simulate some processing time
+                    hideProgressBar();
+                }, 500);
+            }, 1500);
+        }, 1000);
     }
 });
 
@@ -117,12 +114,10 @@ feedbackForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const feedbackText = document.getElementById('feedbackText').value;
 
-    if (feedbackText.trim() !== "") {
+    if (feedbackText.trim()!== "") {
         alert("Feedback submitted (Placeholder - would send to server):\n" + feedbackText);
-        // Clear the textarea after submission (optional)
         document.getElementById('feedbackText').value = "";
     } else {
         alert("Please enter some feedback.");
     }
-
 });
