@@ -1,114 +1,110 @@
-/* style.css */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    background: linear-gradient(to bottom right, #e3f2fd, #bbdefb); /* Light blue gradient */
-    color: #343a40;
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light text color */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-x: hidden;
-}
-
-header {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    position: sticky;
-    top: 0;
-    z-index: 10;
 }
 
 nav {
+    background-color: #282828; /* Slightly lighter dark nav */
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    justify-content: center; /* Center the logo */
-    align-items: center;
-}.logo {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: #007bff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+nav li {
+    margin: 0 15px;
+}
+
+nav a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 500;
 }
 
 main {
-    padding: 40px;
-    max-width: 960px;
-    margin: 20px auto;
     flex: 1;
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    padding: 20px;
 }
 
-/* Tool Section - Combined and Centered */
-#tools-container {
-    display: flex;
-    flex-direction: column; /* Stack tools vertically */
-    align-items: center; /* Center horizontally */
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    margin-bottom: 20px;
+#converter-card {
+    background-color: #282828; /* Card background */
+    padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(5px);
-}.tool-group { /* Style each tool group (image, pdf, feedback) */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px; /* Space between tool groups */
-    width: 100%; /* Make each tool group take full width */
-}.tool-group h2 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
-    font-weight: 600;
-    color: #343a40;
-}.tool-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Tool content takes full width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 400px; /* Adjust width as needed */
 }
 
-#canvas {
-    border: 1px solid #eee;
+h2 {
+    color: #e0e0e0;
     margin-bottom: 20px;
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}.buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center; /* Center buttons */
-    width: 100%;
+}.input-area {
+    margin-bottom: 20px;
+}.choose-file-button {
+    background-color: #383838; /* Darker button background */
+    color: #e0e0e0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
 }
 
-button,.custom-file-upload {
-    padding: 10px 20px;
-    background-color: #007bff;
+#imageInput {
+    display: none;
+}
+
+#file-name {
+    margin-left: 10px;
+    color: #909090;
+}.format-select {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}.format-select label {
+    color: #e0e0e0;
+    margin-right: 10px;
+}
+
+select {
+    background-color: #383838;
+    color: #e0e0e0;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+#convertButton {
+    background: linear-gradient(to right, #00bcd4, #00acc1); /* Gradient button */
     color: #fff;
+    padding: 12px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform-style: preserve-3d; /* For 3D effect */
+    font-weight: 500;
+    transition: background 0.3s;
 }
 
-button:hover,.custom-file-upload:hover {
-    background-color: #0056b3;
-    transform: scale3d(1.05, 1.05, 1.05); /* 3D scale */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+#convertButton:hover {
+    background: linear-gradient(to right, #00acc1, #0097a7); /* Darker gradient on hover */
 }
 
-/*... (rest of the CSS) */
-
-/* Progress Bar */
-#progress-bar {
-    width: 0%; /* Initially 0% */
-    height: 10px;
-    background-color: #4caf50; /* Green progress color */
-    border-radius: 5px;
-    margin-top: 10px;
-    transition: width 0.5s ease-in-out; /* Smooth transition */
-    display: none; /* Hidden by default */
+footer {
+    background-color: #282828;
+    color: #909090;
+    text-align: center;
+    padding: 10px;
 }
