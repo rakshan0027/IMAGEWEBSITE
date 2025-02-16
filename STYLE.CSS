@@ -2,23 +2,26 @@
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    /* Gradient background - Experiment with different gradients */
-    background: linear-gradient(to bottom right, #e0f2f7, #bbdefb); /* Light blue to a slightly darker blue */
+    /* Vibrant gradient background - Experiment! */
+    background: linear-gradient(to bottom right, #64b5f6, #90caf9); /* Example: Light blue to a slightly lighter blue */
+    /* background: linear-gradient(to bottom right, #4caf50, #8bc34a);  Example: Green gradient */
+    /* background: linear-gradient(to bottom right, #ff9800, #ffc107);  Example: Orange gradient */
+    /* background: linear-gradient(to bottom right, #ff5722, #ff9800); Example: Red-Orange Gradient */
     color: #343a40;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal scroll on some effects */
+    overflow-x: hidden;
 }
 
 header {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white header */
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px); /* Add a subtle blur effect */
-    position: sticky; /* Sticky header */
+    backdrop-filter: blur(5px);
+    position: sticky;
     top: 0;
-    z-index: 10; /* Ensure header is on top */
+    z-index: 10;
 }
 
 nav {
@@ -29,30 +32,27 @@ nav {
     font-size: 1.5em;
     font-weight: 700;
     color: #007bff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle logo shadow */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-/*... (hero styles - if you add it back, see below) */
 
 main {
     padding: 40px;
     max-width: 960px;
     margin: 20px auto;
     flex: 1;
-    /* Add a subtle 3D effect to main content */
-    perspective: 800px; /* Create a 3D space */
+    perspective: 800px;
 }.tool-section {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white sections */
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 30px;
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(5px);
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
-    transform-style: preserve-3d; /* Needed for 3D transforms */
+    transition: transform 0.3s, box-shadow 0.3s;
+    transform-style: preserve-3d;
 }.tool-section:hover {
-    transform: translateY(-8px) rotateX(5deg); /* Lift and rotate slightly on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+    transform: translateY(-8px) rotateX(5deg);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }.tool-section h2 {
     font-size: 1.8em;
     margin-bottom: 20px;
@@ -123,18 +123,4 @@ footer {
 /* Responsive Design (Example) */
 @media (max-width: 768px) {
     /*... (responsive styles) */
-}
-
-
-/* Hero Section Styles (If you add it back) */.hero {
-    /*... (other hero styles) */
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("hero-image.jpg"); /* Example background image */
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-    padding: 80px 0; /* Adjust padding */
-}.hero h1 {
-    /*... (hero h1 styles) */
-}.hero p {
-    /*... (hero p styles) */
 }
