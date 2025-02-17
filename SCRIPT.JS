@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const convertImageBtn = document.getElementById('convertImageBtn');
     const progressBar = document.querySelector('.progress-bar');
     const downloadLink = document.getElementById('downloadLink');
+    const imagePreview = document.getElementById('imagePreview'); // Get the existing image preview element
 
     // PDF Converter Elements
     const pdfUpload = document.getElementById('pdfUpload');
@@ -49,11 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reset progress bar and download link
             progressBar.style.width = '0%';
             downloadLink.style.display = 'none';
+            imagePreview.style.display = 'none'; // Hide the preview initially
 
             // Simulate conversion progress
             simulateProgress(progressBar, () => {
                 // Simulate a converted image (replace with actual conversion logic)
-                const imageUrl = URL.createObjectURL(file); // This will let you show the image to the user, but it is still not converted.
+                const imageUrl = URL.createObjectURL(file);
+
+                // Set image preview
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block'; // Show the image
 
                 // Create a temporary canvas to convert the image
                 const canvas = document.createElement('canvas');
@@ -85,11 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     downloadLink.href = dataURL;
                     downloadLink.download = `converted.${format}`;
                     downloadLink.style.display = 'block';
+
                 };
                 img.src = imageUrl;
-
-                // Clean up the URL object
-                URL.revokeObjectURL(imageUrl);
 
             });
         } else {
@@ -97,10 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // PDF Converter Functionality (Simulated)
+   // PDF Converter Functionality (Simulated)
     convertToPdfBtn.addEventListener('click', () => {
-        // As client side PDF generation and conversion will be very complicated, so i am not including it
-        alert('As client side PDF generation and conversion will be very complicated, so i am not including it');
+        const file = pdfUpload.files[0];  // Get the uploaded file
+        if(file){
+            // Create a download URL for the uploaded file
+            const fileURL = URL.createObjectURL(file);
+
+             // Set the download link's attributes
+            pdfDownloadLink.href = fileURL;
+            pdfDownloadLink.download = file.name + ".pdf";  // Set the download filename
+            pdfDownloadLink.style.display = 'block'; // Make the download link visible
+
+            // Display an alert
+            alert('Client-side PDF generation and conversion are complicated. Providing a simulated download.');
+
+        }else {
+              // Alert the user to upload a file if one has not been uploaded.
+            alert("Please upload a file to convert to PDF.")
+        }
     });
 
     // Remove Background Functionality (Simulated - Color Replacement)
@@ -152,8 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     bgRemovalDownloadLink.download = 'background_removed.png';
                     bgRemovalDownloadLink.style.display = 'block';
                 };
-                // Clean up the URL object
-                URL.revokeObjectURL(img.src);
             } else {
                 alert('No free trials remaining. Please purchase premium access.');
             }
