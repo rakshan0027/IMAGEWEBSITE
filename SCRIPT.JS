@@ -1,12 +1,13 @@
 // Image Converter
 document.getElementById('imageInput').addEventListener('change', function(event) {
-    const file = event.target.files;
-    const fileName = file? file.name: 'No file chosen';
-    document.getElementById('file-name').textContent = fileName;
+    const file = event.target.files[0];
+    if (file) {
+        document.getElementById('file-name').textContent = file.name;
+    }
 });
 
 document.getElementById('convertButton').addEventListener('click', function() {
-    const file = imageInput.files;
+    const file = imageInput.files[0];
     const format = formatSelect.value;
 
     if (!file) {
@@ -25,28 +26,19 @@ document.getElementById('convertButton').addEventListener('click', function() {
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0);
 
-            // Convert canvas to blob and trigger download
+            // Convert canvas to blob and store download URL
             canvas.toBlob(function(blob) {
-                const newFile = new File([blob], file.name.replace(/\..+$/, `.${format}`), {
-                    type: `image/${format}`
-                });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(newFile);
-                link.download = newFile.name;
-                link.click();
+                const downloadURL = URL.createObjectURL(blob);
+                document.getElementById('downloadButton').href = downloadURL;
+                document.getElementById('downloadButton').download = `converted_image.${format}`;
+                document.getElementById('downloadButton').style.display = 'block';
             }, `image/${format}`);
-
-            // jsPDF for basic image-to-PDF (single image, simple)
-            const pdf = new jsPDF();
-            pdf.addImage(canvas.toDataURL(`image/${format}`), format.toUpperCase(), 10, 10, 180, 0);
-            pdf.save('converted_image.pdf');
-
-        }
+        };
         img.src = event.target.result;
-    }
+    };
     reader.readAsDataURL(file);
 
-    // Simulate conversion process
+    // Simulate conversion progress
     convertButton.disabled = true;
     progressBar.style.width = '0%';
     progressBar.style.display = 'block';
@@ -57,105 +49,41 @@ document.getElementById('convertButton').addEventListener('click', function() {
         if (progress >= 100) {
             clearInterval(interval);
             alert('Image converted successfully!');
-            downloadButton.style.display = 'block';
             convertButton.disabled = false;
         }
-    }, 500); // Simulate conversion time
+    }, 500);
 });
-
-// --- Corrected downloadButton event listener ---
-downloadButton.addEventListener('click', () => {
-    const file = imageInput.files;
-    const format = formatSelect.value;
-
-    // Use the converted image data from the convertButton's logic
-    // (You'll need to store this data appropriately in the convertButton's logic)
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            canvas.toBlob(function(blob) {
-                const newFile = new File([blob], file.name.replace(/\..+$/, `.${format}`), {
-                    type: `image/${format}`
-                });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(newFile);
-                link.download = newFile.name;
-                link.click();
-            }, `image/${format}`);
-        }
-        img.src = event.target.result;
-    }
-    reader.readAsDataURL(file);
-});
-// --- End of corrected downloadButton event listener ---
 
 // PDF Converter
-const pdfInput = document.getElementById('pdfInput');
-const convertPdfButton = document.getElementById('convertPdfButton');
-const downloadPdfButton = document.getElementById('downloadPdfButton');
-const pdfProgressBar = document.getElementById('pdfProgressBar');
-
-convertPdfButton.addEventListener('click', () => {
-    const file = pdfInput.files;
+document.getElementById('convertPdfButton').addEventListener('click', function() {
+    const file = pdfInput.files[0];
 
     if (!file) {
         alert('Please choose an image file.');
         return;
     }
 
-    // Simulate conversion process
-    convertPdfButton.disabled = true;
-    pdfProgressBar.style.width = '0%';
-    pdfProgressBar.style.display = 'block';
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += 10;
-        pdfProgressBar.style.width = progress + '%';
-        if (progress >= 100) {
-            clearInterval(interval);
-            alert('Image converted to PDF successfully!');
-            downloadPdfButton.style.display = 'block';
-            convertPdfButton.disabled = false;
-        }
-    }, 500); // Simulate conversion time
-});
-
-downloadPdfButton.addEventListener('click', () => {
-    const file = pdfInput.files;
-
-    // Use the converted PDF data from the convertPdfButton's logic
-    // (You'll need to store this data appropriately in the convertPdfButton's logic)
     const reader = new FileReader();
     reader.onload = function(event) {
-        const pdf = new jsPDF();
-        pdf.addImage(event.target.result, 'JPEG', 10, 10, 180, 0); // Assuming JPEG for now
-        pdf.save('converted_image.pdf');
-
-        const link = document.createElement('a');
-        link.href = pdf.output('datauristring'); // Get the data URL
-        link.download = 'converted_image.pdf';
-        link.click();
-    }
+        const img = new Image();
+        img.onload = function() {
+            const pdf = new jsPDF();
+            pdf.addImage(img, 'JPEG', 10, 10, 180, 0);
+            const pdfBlob = pdf.output('blob');
+            const downloadURL = URL.createObjectURL(pdfBlob);
+            
+            document.getElementById('downloadPdfButton').href = downloadURL;
+            document.getElementById('downloadPdfButton').download = 'converted_image.pdf';
+            document.getElementById('downloadPdfButton').style.display = 'block';
+        };
+        img.src = event.target.result;
+    };
     reader.readAsDataURL(file);
 });
 
 // Background Remover
-const bgInput = document.getElementById('bgInput');
-const removeBgButton = document.getElementById('removeBgButton');
-const downloadBgButton = document.getElementById('downloadBgButton');
-const bgProgressBar = document.getElementById('bgProgressBar');
-const trialsRemainingSpan = document.getElementById('trials-remaining');
-let trialsRemaining = 5;
-
-removeBgButton.addEventListener('click', () => {
-    const file = bgInput.files;
+document.getElementById('removeBgButton').addEventListener('click', function() {
+    const file = bgInput.files[0];
 
     if (!file) {
         alert('Please choose an image file.');
@@ -177,51 +105,10 @@ removeBgButton.addEventListener('click', () => {
                 downloadBgButton.style.display = 'block';
                 removeBgButton.disabled = false;
                 trialsRemaining--;
-                trialsRemainingSpan.textContent = trialsRemaining;
-                if (trialsRemaining === 0) {
-                    alert('You have used all your free trials. Please purchase premium to continue.');
-                }
+                document.getElementById('trials-remaining').textContent = trialsRemaining;
             }
-        }, 500); // Simulate removal time
+        }, 500);
     } else {
         alert('You have used all your free trials. Please purchase premium to continue.');
     }
-});
-
-downloadBgButton.addEventListener('click', () => {
-    const file = bgInput.files;
-
-    // Use the processed image data from the removeBgButton's logic
-    // (You'll need to store this data appropriately in the removeBgButton's logic)
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            canvas.toBlob(function(blob) {
-                const newFile = new File([blob], file.name, {
-                    type: file.type
-                });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(newFile);
-                link.download = newFile.name;
-                link.click();
-            }, file.type);
-        }
-        img.src = event.target.result;
-    }
-    reader.readAsDataURL(file);
-});
-
-// Premium Button
-const premiumButton = document.getElementById('premiumButton');
-
-premiumButton.addEventListener('click', () => {
-    // Replace this with actual redirect logic
-    alert('Premium button clicked. Implement redirect to purchase page here.');
 });
