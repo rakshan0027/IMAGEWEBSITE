@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <nav>
         <div class="nav-container">
         <h1>AI Image Converter</h1>
@@ -33,12 +32,13 @@
             <div class="progress-bar-container">
                 <div class="progress-bar"></div>
             </div>
+            <img id="imagePreview" src="" alt="Converted Image" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
             <a id="downloadLink" style="display: none;" download>Download</a>
         </section>
 
         <section id="pdfConverterSection" class="tool-section" style="display: none;">
             <h2>PDF Converter</h2>
-            <input type="file" id="pdfUpload" accept="image/*">
+            <input type="file" id="pdfUpload" accept="image/*, application/pdf">
             <button id="convertToPdfBtn">Convert to PDF</button>
             <a id="pdfDownloadLink" style="display: none;" download="converted.pdf">Download PDF</a>
         </section>
