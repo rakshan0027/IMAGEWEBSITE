@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfUpload = document.getElementById('pdfUpload');
     const convertToPdfBtn = document.getElementById('convertToPdfBtn');
     const pdfDownloadLink = document.getElementById('pdfDownloadLink');
+    const cloudConvertApiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTA3OTQ3ZDM4NDYyNDVmMGMxNTE1N2EyOWEzOTRkZjU4MjU4OGMzNDI2MTRkZTAxYzY2ZDNhZjI4MWM5ZjUwOThlNDBlNjkxMzBkNzE3NmQiLCJpYXQiOjE3Mzk3OTcwODMuMzgyNTgsIm5iZiI6MTczOTc5NzA4My4zODI1ODEsImV4cCI6NDg5NTQ3MDY4My4zNzkwNDIsInN1YiI6IjcxMDc4OTUzIiwic2NvcGVzIjpbXX0.a8Q7EE1NeyfukbweLb4oR7_CSgvhnw8BPhNXban5SAv7Z7DCZWN-vwrxXeNM1XaDLpy3_eJKx1xuqaEFYp2dt73uwncs6vcnAxtLNAKchgOF4MNwUSwymC46ULqLkMR6RXiW-w0Rs1syDremRWO3sr-NgKr7bsgmLlDZdAOpBjajzdZkEZAhL3jqt_ADUNuvPUldUbm1lZjGYTGo9zysXmNz5yH1bIqaST3KWftlXEyXqPxQOm5hsHrzriKcDbOAejuG1xi6u8fLEnhUunPexCHG0xpYFI5AOuTFP-P9c1TM6SljsDQ9Kz1i3UDJEh7JgMHjl1xYTBm34EM6sNJ8usb0L9g9isCYc5eAJEKT6vUAnXl1_4KSVDOLntG1n5E3nCp7VUllNpI7nY-fOFlPo3dx7QkZPWzEEbxHgBkCQxAKhzeNKMzvMqcCk8Nw38mc4IK3UwZAmxbq4xXFPfjQ786jc-xWh2NEFnSs-Y7ImsyEoEWth_2Ub52VJzuj8cE_bydwkSwJ8OGUSBKLew3NNns6hBZNELdVZNxN3KQms-tNBrqbFQJGkfzzNiE6yCZXQlnaFzgjh8YOas_mZDW9v1o6IlIrEnOIHS00OF6MQXAuTnruq0PbqmmEP7ExG241nru2vH8_5MbCPWA2vJicIizJhB32jPXDTdyCJdu_cns'; // Replace with your CloudConvert API key
 
     // Remove Background Elements
     const bgRemovalUpload = document.getElementById('bgRemovalUpload');
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgRemovalDownloadLink = document.getElementById('bgRemovalDownloadLink');
     const trialsRemainingSpan = document.getElementById('trialsRemaining');
     let trialsRemaining = 5; // Initial number of trials
+    const removeBgApiKey = 'AH2afjdh9BatTRDPxsNkjzRm'; // Replace with your actual API key
 
     // Function to show a section and hide others
     function showSection(section) {
@@ -101,76 +103,157 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-   // PDF Converter Functionality (Simulated)
-    convertToPdfBtn.addEventListener('click', () => {
-        const file = pdfUpload.files[0];  // Get the uploaded file
-        if(file){
-            // Create a download URL for the uploaded file
-            const fileURL = URL.createObjectURL(file);
+   // PDF Converter Functionality (CloudConvert API)
+    convertToPdfBtn.addEventListener('click', async () => {
+        const file = pdfUpload.files[0];
+        if (file) {
+            try {
+                // 1. Upload the file to CloudConvert
+                const uploadResponse = await fetch('https://api.cloudconvert.com/v2/uploads', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${cloudConvertApiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        filename: file.name
+                    })
+                });
 
-             // Set the download link's attributes
-            pdfDownloadLink.href = fileURL;
-            pdfDownloadLink.download = file.name + ".pdf";  // Set the download filename
-            pdfDownloadLink.style.display = 'block'; // Make the download link visible
+                if (!uploadResponse.ok) {
+                    throw new Error(`CloudConvert upload error: ${uploadResponse.status} ${uploadResponse.statusText}`);
+                }
 
-            // Display an alert
-            alert('Client-side PDF generation and conversion are complicated. Providing a simulated download.');
+                const uploadData = await uploadResponse.json();
+                const uploadUrl = uploadData.data.url;
 
-        }else {
-              // Alert the user to upload a file if one has not been uploaded.
-            alert("Please upload a file to convert to PDF.")
+                // 2.  PUT the file content to the upload URL
+                const putResponse = await fetch(uploadUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': file.type // Set the correct content type
+                    },
+                    body: file
+                });
+
+                if (!putResponse.ok) {
+                    throw new Error(`CloudConvert PUT error: ${putResponse.status} ${putResponse.statusText}`);
+                }
+
+                // 3. Create the conversion job
+                const conversionResponse = await fetch('https://api.cloudconvert.com/v2/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${cloudConvertApiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        tasks: {
+                            "upload-file": {
+                                operation: "import/upload",
+                                upload: true,
+                                filename: file.name
+                            },
+                            "convert-file": {
+                                operation: "convert",
+                                input: "upload-file",
+                                output_format: "pdf",
+                                engine: "graphicsmagick" // Optional: Specify engine
+                            },
+                            "export-file": {
+                                operation: "export/url",
+                                input: "convert-file"
+                            }
+                        },
+                        tag: 'pdf-conversion'
+                    })
+                });
+
+                if (!conversionResponse.ok) {
+                    throw new Error(`CloudConvert conversion error: ${conversionResponse.status} ${conversionResponse.statusText}`);
+                }
+
+                const conversionData = await conversionResponse.json();
+                const jobId = conversionData.data.id;
+
+                // 4. Wait for the conversion to complete (Polling)
+                let downloadUrl = null;
+                while (!downloadUrl) {
+                    const statusResponse = await fetch(`https://api.cloudconvert.com/v2/jobs/${jobId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${cloudConvertApiKey}`
+                        }
+                    });
+
+                    if (!statusResponse.ok) {
+                        throw new Error(`CloudConvert status error: ${statusResponse.status} ${statusResponse.statusText}`);
+                    }
+
+                    const statusData = await statusResponse.json();
+                    const jobStatus = statusData.data.status;
+                    if (jobStatus === 'finished') {
+                        downloadUrl = statusData.data.tasks.find(task => task.operation === 'export/url').result.files[0].url;
+                    } else if (jobStatus === 'error') {
+                        throw new Error('CloudConvert job failed: ' + statusData.data.message);
+                    } else {
+                        // Wait before checking again (adjust the delay as needed)
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                    }
+                }
+
+                // 5. Set the download link
+                pdfDownloadLink.href = downloadUrl;
+                pdfDownloadLink.download = file.name.replace(/\.[^.]+$/, "") + '.pdf';
+                pdfDownloadLink.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error converting to PDF:', error);
+                alert(`Error converting to PDF: ${error.message}`);
+            }
+        } else {
+            alert('Please upload a file to convert to PDF.');
         }
     });
 
-    // Remove Background Functionality (Simulated - Color Replacement)
-    removeBgBtn.addEventListener('click', () => {
+        // Remove Background Functionality (remove.bg API)
+    removeBgBtn.addEventListener('click', async () => {
         const file = bgRemovalUpload.files[0];
         if (file) {
             if (trialsRemaining > 0) {
                 trialsRemaining--;
                 trialsRemainingSpan.textContent = trialsRemaining;
 
-                // Create an image object
-                const img = new Image();
-                img.src = URL.createObjectURL(file);
-                img.onload = function() {
-                    // Create a canvas and draw the image
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
+                // Create FormData object
+                const formData = new FormData();
+                formData.append('image_file', file);
+                formData.append('size', 'auto'); // Adjust as needed ('auto', 'preview', 'full')
 
-                    // Get image data
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data = imageData.data;
+                try {
+                    // Make API request to remove.bg
+                    const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+                        method: 'POST',
+                        headers: {
+                            'X-Api-Key': removeBgApiKey,
+                        },
+                        body: formData,
+                    });
 
-                    // "Remove" background (replace a specific color with transparent) - VERY basic simulation
-                    const targetColor = { r: 255, g: 255, b: 255 }; // Replace white
-                    const tolerance = 30;
-
-                    for (let i = 0; i < data.length; i += 4) {
-                        const r = data[i];
-                        const g = data[i + 1];
-                        const b = data[i + 2];
-
-                        if (
-                            Math.abs(r - targetColor.r) < tolerance &&
-                            Math.abs(g - targetColor.g) < tolerance &&
-                            Math.abs(b - targetColor.b) < tolerance
-                        ) {
-                            data[i + 3] = 0; // Set alpha to 0 (transparent)
-                        }
+                    if (!response.ok) {
+                        throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
                     }
 
-                    // Put the modified image data back on the canvas
-                    ctx.putImageData(imageData, 0, 0);
+                    const blob = await response.blob(); // Get the response as a blob
 
-                    // Create a download link
-                    bgRemovalDownloadLink.href = canvas.toDataURL('image/png'); // PNG to preserve transparency
+                    // Create a download link for the result
+                    const downloadUrl = URL.createObjectURL(blob);
+                    bgRemovalDownloadLink.href = downloadUrl;
                     bgRemovalDownloadLink.download = 'background_removed.png';
                     bgRemovalDownloadLink.style.display = 'block';
-                };
+
+                } catch (error) {
+                    console.error('Error removing background:', error);
+                    alert(`Error removing background: ${error.message}`);
+                }
             } else {
                 alert('No free trials remaining. Please purchase premium access.');
             }
