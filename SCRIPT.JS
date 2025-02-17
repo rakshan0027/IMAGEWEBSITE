@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfUpload = document.getElementById('pdfUpload');
     const convertToPdfBtn = document.getElementById('convertToPdfBtn');
     const pdfDownloadLink = document.getElementById('pdfDownloadLink');
-    const cloudConvertApiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTA3OTQ3ZDM4NDYyNDVmMGMxNTE1N2EyOWEzOTRkZjU4MjU4OGMzNDI2MTRkZTAxYzY2ZDNhZjI4MWM5ZjUwOThlNDBlNjkxMzBkNzE3NmQiLCJpYXQiOjE3Mzk3OTcwODMuMzgyNTgsIm5iZiI6MTczOTc5NzA4My4zODI1ODEsImV4cCI6NDg5NTQ3MDY4My4zNzkwNDIsInN1YiI6IjcxMDc4OTUzIiwic2NvcGVzIjpbXX0.a8Q7EE1NeyfukbweLb4oR7_CSgvhnw8BPhNXban5SAv7Z7DCZWN-vwrxXeNM1XaDLpy3_eJKx1xuqaEFYp2dt73uwncs6vcnAxtLNAKchgOF4MNwUSwymC46ULqLkMR6RXiW-w0Rs1syDremRWO3sr-NgKr7bsgmLlDZdAOpBjajzdZkEZAhL3jqt_ADUNuvPUldUbm1lZjGYTGo9zysXmNz5yH1bIqaST3KWftlXEyXqPxQOm5hsHrzriKcDbOAejuG1xi6u8fLEnhUunPexCHG0xpYFI5AOuTFP-P9c1TM6SljsDQ9Kz1i3UDJEh7JgMHjl1xYTBm34EM6sNJ8usb0L9g9isCYc5eAJEKT6vUAnXl1_4KSVDOLntG1n5E3nCp7VUllNpI7nY-fOFlPo3dx7QkZPWzEEbxHgBkCQxAKhzeNKMzvMqcCk8Nw38mc4IK3UwZAmxbq4xXFPfjQ786jc-xWh2NEFnSs-Y7ImsyEoEWth_2Ub52VJzuj8cE_bydwkSwJ8OGUSBKLew3NNns6hBZNELdVZNxN3KQms-tNBrqbFQJGkfzzNiE6yCZXQlnaFzgjh8YOas_mZDW9v1o6IlIrEnOIHS00OF6MQXAuTnruq0PbqmmEP7ExG241nru2vH8_5MbCPWA2vJicIizJhB32jPXDTdyCJdu_cns'; // Replace with your CloudConvert API key
+    const iLovePdfPublicKey = 'project_public_1ca7aa4770cd9ca2ecac6aa6b9df8103_dCg6Nb91bf72cf1e44e89e2f673231280990d'; // I Love PDF Public Project Key
 
     // Remove Background Elements
     const bgRemovalUpload = document.getElementById('bgRemovalUpload');
@@ -103,105 +103,85 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-   // PDF Converter Functionality (CloudConvert API)
+    // PDF Converter Functionality (I Love PDF API)
     convertToPdfBtn.addEventListener('click', async () => {
         const file = pdfUpload.files[0];
         if (file) {
             try {
-                // 1. Upload the file to CloudConvert
-                const uploadResponse = await fetch('https://api.cloudconvert.com/v2/uploads', {
-                    method: 'POST',
+                // 1. Create a Task
+                const createTaskResponse = await fetch('https://api.ilovepdf.com/v1/start', {
+                    method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${cloudConvertApiKey}`,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${iLovePdfPublicKey}`
                     },
-                    body: JSON.stringify({
-                        filename: file.name
-                    })
+                });
+
+                if (!createTaskResponse.ok) {
+                    throw new Error(`I Love PDF Create Task Error: ${createTaskResponse.status} ${createTaskResponse.statusText}`);
+                }
+
+                const createTaskData = await createTaskResponse.json();
+                const taskId = createTaskData.task_id;
+
+                // 2. Upload the file
+                const formData = new FormData();
+                formData.append('task_id', taskId);
+                formData.append('file', file); // Append the file
+
+                const uploadResponse = await fetch('https://api.ilovepdf.com/v1/upload', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                         'Authorization': `Bearer ${iLovePdfPublicKey}`
+                    }
                 });
 
                 if (!uploadResponse.ok) {
-                    throw new Error(`CloudConvert upload error: ${uploadResponse.status} ${uploadResponse.statusText}`);
+                    throw new Error(`I Love PDF Upload Error: ${uploadResponse.status} ${uploadResponse.statusText}`);
                 }
 
                 const uploadData = await uploadResponse.json();
-                const uploadUrl = uploadData.data.url;
-
-                // 2.  PUT the file content to the upload URL
-                const putResponse = await fetch(uploadUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': file.type // Set the correct content type
-                    },
-                    body: file
-                });
-
-                if (!putResponse.ok) {
-                    throw new Error(`CloudConvert PUT error: ${putResponse.status} ${putResponse.statusText}`);
+                if (uploadData.errors && uploadData.errors.length > 0) {
+                    throw new Error(`I Love PDF Upload Error: ${uploadData.errors[0].message}`);
                 }
 
-                // 3. Create the conversion job
-                const conversionResponse = await fetch('https://api.cloudconvert.com/v2/jobs', {
+                // 3. Process the PDF
+                const processResponse = await fetch('https://api.ilovepdf.com/v1/process', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${cloudConvertApiKey}`,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${iLovePdfPublicKey}`
                     },
                     body: JSON.stringify({
-                        tasks: {
-                            "upload-file": {
-                                operation: "import/upload",
-                                upload: true,
-                                filename: file.name
-                            },
-                            "convert-file": {
-                                operation: "convert",
-                                input: "upload-file",
-                                output_format: "pdf",
-                                engine: "graphicsmagick" // Optional: Specify engine
-                            },
-                            "export-file": {
-                                operation: "export/url",
-                                input: "convert-file"
-                            }
-                        },
-                        tag: 'pdf-conversion'
+                        task_id: taskId,
+                        tool: 'imagepdf' // Or 'officepdf', depending on file type
                     })
                 });
 
-                if (!conversionResponse.ok) {
-                    throw new Error(`CloudConvert conversion error: ${conversionResponse.status} ${conversionResponse.statusText}`);
+                if (!processResponse.ok) {
+                    throw new Error(`I Love PDF Process Error: ${processResponse.status} ${processResponse.statusText}`);
                 }
 
-                const conversionData = await conversionResponse.json();
-                const jobId = conversionData.data.id;
-
-                // 4. Wait for the conversion to complete (Polling)
-                let downloadUrl = null;
-                while (!downloadUrl) {
-                    const statusResponse = await fetch(`https://api.cloudconvert.com/v2/jobs/${jobId}`, {
-                        headers: {
-                            'Authorization': `Bearer ${cloudConvertApiKey}`
-                        }
-                    });
-
-                    if (!statusResponse.ok) {
-                        throw new Error(`CloudConvert status error: ${statusResponse.status} ${statusResponse.statusText}`);
-                    }
-
-                    const statusData = await statusResponse.json();
-                    const jobStatus = statusData.data.status;
-                    if (jobStatus === 'finished') {
-                        downloadUrl = statusData.data.tasks.find(task => task.operation === 'export/url').result.files[0].url;
-                    } else if (jobStatus === 'error') {
-                        throw new Error('CloudConvert job failed: ' + statusData.data.message);
-                    } else {
-                        // Wait before checking again (adjust the delay as needed)
-                        await new Promise(resolve => setTimeout(resolve, 2000));
-                    }
+                const processData = await processResponse.json();
+                if (processData.errors && processData.errors.length > 0) {
+                    throw new Error(`I Love PDF Process Error: ${processData.errors[0].message}`);
                 }
 
-                // 5. Set the download link
+                // 4. Download the PDF
+                const downloadResponse = await fetch(`https://api.ilovepdf.com/v1/download/${taskId}`, {
+                    headers: {
+                         'Authorization': `Bearer ${iLovePdfPublicKey}`
+                    }
+                });
+
+                if (!downloadResponse.ok) {
+                    throw new Error(`I Love PDF Download Error: ${downloadResponse.status} ${downloadResponse.statusText}`);
+                }
+
+                const blob = await downloadResponse.blob();
+                const downloadUrl = URL.createObjectURL(blob);
+
                 pdfDownloadLink.href = downloadUrl;
                 pdfDownloadLink.download = file.name.replace(/\.[^.]+$/, "") + '.pdf';
                 pdfDownloadLink.style.display = 'block';
