@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfUpload = document.getElementById('pdfUpload');
     const convertToPdfBtn = document.getElementById('convertToPdfBtn');
     const pdfDownloadLink = document.getElementById('pdfDownloadLink');
-    const iLovePdfPublicKey = 'project_public_1ca7aa4770cd9ca2ecac6aa6b9df8103_dCg6Nb91bf72cf1e44e89e2f673231280990d'; // I Love PDF Public Project Key
+    const img2PdfApiKey = '400280235bmsh51cb5b1d57fdcdap124484jsna3d5ed77b3dc'; // RapidAPI Key
 
     // Remove Background Elements
     const bgRemovalUpload = document.getElementById('bgRemovalUpload');
@@ -103,88 +103,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // PDF Converter Functionality (I Love PDF API)
+    // PDF Converter Functionality (img2pdf2.p.rapidapi.com)
     convertToPdfBtn.addEventListener('click', async () => {
         const file = pdfUpload.files[0];
         if (file) {
             try {
-                // 1. Create a Task
-                const createTaskResponse = await fetch('https://api.ilovepdf.com/v1/start', {
+                // Get the URL of the image
+                const imageUrl = URL.createObjectURL(file);
+
+                // Encode the URL
+                const encodedImageUrl = encodeURIComponent(imageUrl);
+
+                // Construct the API URL
+                const apiUrl = `https://img2pdf2.p.rapidapi.com/convert?url=${encodedImageUrl}`;
+
+                // Make the API request
+                const response = await fetch(apiUrl, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${iLovePdfPublicKey}`
+                        'x-rapidapi-host': 'img2pdf2.p.rapidapi.com',
+                        'x-rapidapi-key': img2PdfApiKey,
                     },
                 });
 
-                if (!createTaskResponse.ok) {
-                    throw new Error(`I Love PDF Create Task Error: ${createTaskResponse.status} ${createTaskResponse.statusText}`);
+                if (!response.ok) {
+                    throw new Error(`img2pdf2 API error: ${response.status} ${response.statusText}`);
                 }
 
-                const createTaskData = await createTaskResponse.json();
-                const taskId = createTaskData.task_id;
+                const blob = await response.blob();
 
-                // 2. Upload the file
-                const formData = new FormData();
-                formData.append('task_id', taskId);
-                formData.append('file', file); // Append the file
-
-                const uploadResponse = await fetch('https://api.ilovepdf.com/v1/upload', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                         'Authorization': `Bearer ${iLovePdfPublicKey}`
-                    }
-                });
-
-                if (!uploadResponse.ok) {
-                    throw new Error(`I Love PDF Upload Error: ${uploadResponse.status} ${uploadResponse.statusText}`);
-                }
-
-                const uploadData = await uploadResponse.json();
-                if (uploadData.errors && uploadData.errors.length > 0) {
-                    throw new Error(`I Love PDF Upload Error: ${uploadData.errors[0].message}`);
-                }
-
-                // 3. Process the PDF
-                const processResponse = await fetch('https://api.ilovepdf.com/v1/process', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                         'Authorization': `Bearer ${iLovePdfPublicKey}`
-                    },
-                    body: JSON.stringify({
-                        task_id: taskId,
-                        tool: 'imagepdf' // Or 'officepdf', depending on file type
-                    })
-                });
-
-                if (!processResponse.ok) {
-                    throw new Error(`I Love PDF Process Error: ${processResponse.status} ${processResponse.statusText}`);
-                }
-
-                const processData = await processResponse.json();
-                if (processData.errors && processData.errors.length > 0) {
-                    throw new Error(`I Love PDF Process Error: ${processData.errors[0].message}`);
-                }
-
-                // 4. Download the PDF
-                const downloadResponse = await fetch(`https://api.ilovepdf.com/v1/download/${taskId}`, {
-                    headers: {
-                         'Authorization': `Bearer ${iLovePdfPublicKey}`
-                    }
-                });
-
-                if (!downloadResponse.ok) {
-                    throw new Error(`I Love PDF Download Error: ${downloadResponse.status} ${downloadResponse.statusText}`);
-                }
-
-                const blob = await downloadResponse.blob();
+                // Create a download link
                 const downloadUrl = URL.createObjectURL(blob);
-
                 pdfDownloadLink.href = downloadUrl;
                 pdfDownloadLink.download = file.name.replace(/\.[^.]+$/, "") + '.pdf';
                 pdfDownloadLink.style.display = 'block';
+
+                 // Revoke the object URL after the download starts
+                 URL.revokeObjectURL(imageUrl);
 
             } catch (error) {
                 console.error('Error converting to PDF:', error);
@@ -227,36 +182,4 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Create a download link for the result
                     const downloadUrl = URL.createObjectURL(blob);
                     bgRemovalDownloadLink.href = downloadUrl;
-                    bgRemovalDownloadLink.download = 'background_removed.png';
-                    bgRemovalDownloadLink.style.display = 'block';
-
-                } catch (error) {
-                    console.error('Error removing background:', error);
-                    alert(`Error removing background: ${error.message}`);
-                }
-            } else {
-                alert('No free trials remaining. Please purchase premium access.');
-            }
-        } else {
-            alert('Please upload an image for background removal.');
-        }
-    });
-
-    premiumBtn.addEventListener('click', () => {
-        // Redirect to purchase page (replace with your actual purchase page URL)
-        window.location.href = 'https://example.com/premium';
-    });
-
-    // Helper function to simulate progress
-    function simulateProgress(progressBar, callback) {
-        let width = 0;
-        const interval = setInterval(() => {
-            width += 10;
-            progressBar.style.width = width + '%';
-            if (width >= 100) {
-                clearInterval(interval);
-                callback();
-            }
-        }, 50);
-    }
-});
+                    bgRemovalDownloadLink.download = 'background_removed.png
