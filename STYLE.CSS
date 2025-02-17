@@ -1,182 +1,180 @@
+/* style.css */
+
+/* General Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom, #120a8f, #220e36);
-    color: #fff;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
 }
-
-nav {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 20px 0;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-around; /* Distribute items evenly */
-    align-items: center;          /* Vertically center items */
-    max-width: 1200px;            /* Limit the width */
-    margin: 0 auto;              /* Center the container */
-    padding: 0 20px;              /* Add some padding */
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
-
-nav ul li button {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-nav ul li button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
 
 .container {
     width: 80%;
-    margin: 20px auto;
-    padding: 30px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
 }
 
+/* Navigation */
+nav {
+    background: #333;
+    color: #fff;
+    padding: 15px 0;
+}
+
+.nav-container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+nav h1 {
+    float: left;
+    margin: 0;
+}
+
+nav ul {
+    float: right;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    float: left;
+    margin-left: 20px;
+}
+
+nav button {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+nav button:hover {
+    background: #555;
+}
+
+/* Tool Sections */
 .tool-section {
-    margin-bottom: 30px;
+    background: #fff;
     padding: 20px;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .tool-section h2 {
-    color: #fff;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-input[type="file"], select {
     margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    width: 100%;
-    box-sizing: border-box;
+    color: #333;
 }
 
-button {
-    background: linear-gradient(45deg, #4CAF50, #2E7D32);
+.tool-section input[type="file"],
+.tool-section select,
+.tool-section button {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box; /* Important for consistent sizing */
+    display: block; /* Ensure elements take up full width */
+    width: 100%; /* Make elements fill their container */
+    max-width: 300px; /* Limit maximum width */
+}
+
+.tool-section button {
+    background: #5cb85c;
     color: #fff;
     border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
     transition: background 0.3s ease;
-    margin-top: 10px;
 }
 
-button:hover {
-    background: linear-gradient(45deg, #2E7D32, #4CAF50);
+.tool-section button:hover {
+    background: #4cae4c;
 }
 
+/* Progress Bar */
 .progress-bar-container {
-    width: 100%;
-    height: 10px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background: #f0f0f0;
     border-radius: 5px;
-    margin-top: 15px;
-    overflow: hidden; /* Hide overflow of progress bar */
+    height: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .progress-bar {
+    background: #5cb85c;
     height: 100%;
     width: 0%;
-    background: linear-gradient(to right, #00bcd4, #009688);
-    border-radius: 5px;
     transition: width 0.3s ease;
 }
 
-a {
-    display: block;
-    margin-top: 15px;
-    color: #00bcd4;
+/* Download Link and Image Preview */
+#downloadLink,
+#pdfDownloadLink,
+#bgRemovalDownloadLink {
+    display: none; /* Initially hidden */
+    margin-top: 10px;
     text-decoration: none;
-    text-align: center;
+    color: #5cb85c;
+    font-weight: bold;
 }
 
+#imagePreview {
+  max-width: 300px;
+  max-height: 300px;
+  display: none; /* Initially hidden */
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+/* Premium Button */
+#premiumBtn {
+    background: #337ab7;
+}
+
+#premiumBtn:hover {
+    background: #2e6da4;
+}
+
+
+/* Footer */
 footer {
+    background: #333;
+    color: #fff;
     text-align: center;
-    padding: 20px 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    margin-top: auto; /* Push footer to the bottom */
+    padding: 15px 0;
+    margin-top: 20px;
 }
 
-/* Neon Glow Animation */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #4fc3dc, #f44336, #9c27b0, #4caf50, #ffeb3b, #03a9f4);
-    background-size: 400% 400%;
-    z-index: -1;
-    animation: neonGlow 15s linear infinite;
-    opacity: 0.3;
-}
-
-@keyframes neonGlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 20px;
+/* Media Queries for Responsiveness */
+@media(max-width: 768px) {
+    .container, .nav-container {
+        width: 90%;
     }
 
-    button {
-        font-size: 14px;
-        padding: 10px 20px;
-    }
-    .nav-container {
-        flex-direction: column; /* Stack items vertically */
-        align-items: center;      /* Center items horizontally */
+    nav h1, nav ul {
+        float: none;
+        text-align: center;
     }
 
-    nav ul {
-        flex-direction: column; /* Stack list items vertically */
-        align-items: center;      /* Center items horizontally */
-        gap: 10px;                /* Reduce gap between list items */
+    nav li {
+        float: none;
+        margin: 10px 0;
+    }
+
+    .tool-section input[type="file"],
+    .tool-section select,
+    .tool-section button {
+        max-width: 100%; /* Full width on smaller screens */
     }
 }
