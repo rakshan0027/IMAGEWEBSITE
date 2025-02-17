@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Image Converter</title>
+    <title>AI Image Editor</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav>
         <div class="nav-container">
-        <h1>AI Image Converter</h1>
+        <h1>AI Image Editor</h1>
         <ul>
             <li><button id="imageConverterBtn">Image Converter</button></li>
-            <li><button id="pdfConverterBtn">PDF Converter</button></li>
-            <li><button id="removeBackgroundBtn">Remove Background</button></li>
+            <li><button id="blurBackgroundBtn">Blur Background</button></li>
+            <li><button id="changeBackgroundBtn">Change Background</button></li>
+            <li><button id="addShadowBtn">Add Shadow</button></li>
         </ul>
         </div>
     </nav>
@@ -36,27 +37,39 @@
             <a id="downloadLink" style="display: none;" download>Download</a>
         </section>
 
-        <section id="pdfConverterSection" class="tool-section" style="display: none;">
-            <h2>PDF Converter</h2>
-            <input type="file" id="pdfUpload" accept="image/*" >
-            <button id="convertToPdfBtn">Convert to PDF</button>
-            <a id="pdfDownloadLink" style="display: none;" download="converted.pdf">Download PDF</a>
+        <section id="blurBackgroundSection" class="tool-section" style="display: none;">
+            <h2>Blur Background</h2>
+            <input type="file" id="blurUpload" accept="image/*">
+            <label for="blurLevel">Blur Level:</label>
+            <input type="range" id="blurLevel" min="1" max="10" value="5">
+            <button id="blurBtn">Blur It</button>
+            <img id="blurPreview" src="" alt="Blurred Image" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <a id="blurDownloadLink" style="display: none;" download="blurred_image.png">Download</a>
         </section>
 
-        <section id="removeBackgroundSection" class="tool-section" style="display: none;">
-            <h2>Remove Background</h2>
-            <input type="file" id="bgRemovalUpload" accept="image/*">
-            <p>Free Trials Remaining: <span id="trialsRemaining">5</span></p>
-            <button id="removeBgBtn">Remove Background</button>
-            <button id="premiumBtn">Get Premium Access</button>
-            <a id="bgRemovalDownloadLink" style="display: none;" download>Download</a>
+        <section id="changeBackgroundSection" class="tool-section" style="display: none;">
+            <h2>Change Background</h2>
+            <input type="file" id="bgChangeUpload" accept="image/*">
+            <label for="bgColor">Background Color:</label>
+            <input type="color" id="bgColor" value="#000000">
+            <button id="bgChangeBtn">Change It</button>
+            <img id="bgChangePreview" src="" alt="Background Changed" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <a id="bgChangeDownloadLink" style="display: none;" download="background_changed.png">Download</a>
         </section>
+
+        <section id="addShadowSection" class="tool-section" style="display: none;">
+            <h2>Add Shadow</h2>
+            <input type="file" id="shadowUpload" accept="image/*">
+            <button id="shadowBtn">Add Shadow</button>
+            <img id="shadowPreview" src="" alt="Shadow Added" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <a id="shadowDownloadLink" style="display: none;" download="shadow_added.png">Download</a>
+        </section>
+
+        <footer>
+            <p>© 2025 AI Image Editor</p>
+        </footer>
 
     </div>
-
-    <footer>
-        <p>© 2025 AI Image Converter</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
