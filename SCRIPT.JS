@@ -1,11 +1,11 @@
 // Image Converter
-const imageInput = document.getElementById('imageInput');
-const convertButton = document.getElementById('convertButton');
-const downloadButton = document.getElementById('downloadButton');
-const progressBar = document.getElementById('progressBar');
-const formatSelect = document.getElementById('formatSelect');
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    const file = event.target.files;
+    const fileName = file? file.name: 'No file chosen';
+    document.getElementById('file-name').textContent = fileName;
+});
 
-convertButton.addEventListener('click', () => {
+document.getElementById('convertButton').addEventListener('click', function() {
     const file = imageInput.files;
     const format = formatSelect.value;
 
@@ -13,6 +13,38 @@ convertButton.addEventListener('click', () => {
         alert('Please choose an image file.');
         return;
     }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            // Convert canvas to blob and trigger download
+            canvas.toBlob(function(blob) {
+                const newFile = new File([blob], file.name.replace(/\..+$/, `.${format}`), {
+                    type: `image/${format}`
+                });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(newFile);
+                link.download = newFile.name;
+                link.click();
+            }, `image/${format}`);
+
+            // jsPDF for basic image-to-PDF (single image, simple)
+            const pdf = new jsPDF();
+            pdf.addImage(canvas.toDataURL(`image/${format}`), format.toUpperCase(), 10, 10, 180, 0);
+            pdf.save('converted_image.pdf');
+
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(file);
 
     // Simulate conversion process
     convertButton.disabled = true;
@@ -31,10 +63,38 @@ convertButton.addEventListener('click', () => {
     }, 500); // Simulate conversion time
 });
 
+// --- Corrected downloadButton event listener ---
 downloadButton.addEventListener('click', () => {
-    // Replace this with actual download logic
-    alert('Download button clicked. Implement actual download logic here.');
+    const file = imageInput.files;
+    const format = formatSelect.value;
+
+    // Use the converted image data from the convertButton's logic
+    // (You'll need to store this data appropriately in the convertButton's logic)
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            canvas.toBlob(function(blob) {
+                const newFile = new File([blob], file.name.replace(/\..+$/, `.${format}`), {
+                    type: `image/${format}`
+                });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(newFile);
+                link.download = newFile.name;
+                link.click();
+            }, `image/${format}`);
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(file);
 });
+// --- End of corrected downloadButton event listener ---
 
 // PDF Converter
 const pdfInput = document.getElementById('pdfInput');
@@ -68,8 +128,22 @@ convertPdfButton.addEventListener('click', () => {
 });
 
 downloadPdfButton.addEventListener('click', () => {
-    // Replace this with actual download logic
-    alert('Download PDF button clicked. Implement actual download logic here.');
+    const file = pdfInput.files;
+
+    // Use the converted PDF data from the convertPdfButton's logic
+    // (You'll need to store this data appropriately in the convertPdfButton's logic)
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const pdf = new jsPDF();
+        pdf.addImage(event.target.result, 'JPEG', 10, 10, 180, 0); // Assuming JPEG for now
+        pdf.save('converted_image.pdf');
+
+        const link = document.createElement('a');
+        link.href = pdf.output('datauristring'); // Get the data URL
+        link.download = 'converted_image.pdf';
+        link.click();
+    }
+    reader.readAsDataURL(file);
 });
 
 // Background Remover
@@ -115,8 +189,33 @@ removeBgButton.addEventListener('click', () => {
 });
 
 downloadBgButton.addEventListener('click', () => {
-    // Replace this with actual download logic
-    alert('Download button clicked. Implement actual download logic here.');
+    const file = bgInput.files;
+
+    // Use the processed image data from the removeBgButton's logic
+    // (You'll need to store this data appropriately in the removeBgButton's logic)
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            canvas.toBlob(function(blob) {
+                const newFile = new File([blob], file.name, {
+                    type: file.type
+                });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(newFile);
+                link.download = newFile.name;
+                link.click();
+            }, file.type);
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(file);
 });
 
 // Premium Button
