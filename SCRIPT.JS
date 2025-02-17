@@ -1,44 +1,55 @@
-// Image Converter
-document.getElementById('imageInput').addEventListener('change', function(event) {
+// Optimized Image Converter
+const imageInput = document.getElementById('imageInput');
+const convertButton = document.getElementById('convertButton');
+const formatSelect = document.getElementById('formatSelect');
+const progressBar = document.getElementById('progressBar');
+const downloadButton = document.getElementById('downloadButton');
+
+imageInput.addEventListener('change', function(event) {
     const file = event.target.files[0];
-    if (file) {
-        document.getElementById('file-name').textContent = file.name;
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) { // Limit file size to 5MB
+        alert("File size too large! Please upload an image smaller than 5MB.");
+        return;
     }
 });
 
-document.getElementById('convertButton').addEventListener('click', function() {
+convertButton.addEventListener('click', function() {
     const file = imageInput.files[0];
     const format = formatSelect.value;
-
     if (!file) {
         alert('Please choose an image file.');
         return;
     }
 
     const reader = new FileReader();
-
     reader.onload = function(event) {
         const img = new Image();
         img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
+            requestAnimationFrame(() => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const MAX_WIDTH = 800;
+                const scaleFactor = MAX_WIDTH / img.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = img.height * scaleFactor;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // Convert canvas to blob and store download URL
-            canvas.toBlob(function(blob) {
-                const downloadURL = URL.createObjectURL(blob);
-                document.getElementById('downloadButton').href = downloadURL;
-                document.getElementById('downloadButton').download = `converted_image.${format}`;
-                document.getElementById('downloadButton').style.display = 'block';
-            }, `image/${format}`);
+                // Convert canvas to Blob (async)
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    downloadButton.href = url;
+                    downloadButton.download = `converted_image.${format}`;
+                    downloadButton.style.display = "block";
+                }, `image/${format}`);
+            });
         };
         img.src = event.target.result;
     };
     reader.readAsDataURL(file);
 
-    // Simulate conversion progress
+    // Simulate conversion process
     convertButton.disabled = true;
     progressBar.style.width = '0%';
     progressBar.style.display = 'block';
@@ -55,9 +66,13 @@ document.getElementById('convertButton').addEventListener('click', function() {
 });
 
 // PDF Converter
-document.getElementById('convertPdfButton').addEventListener('click', function() {
-    const file = pdfInput.files[0];
+const pdfInput = document.getElementById('pdfInput');
+const convertPdfButton = document.getElementById('convertPdfButton');
+const downloadPdfButton = document.getElementById('downloadPdfButton');
+const pdfProgressBar = document.getElementById('pdfProgressBar');
 
+convertPdfButton.addEventListener('click', () => {
+    const file = pdfInput.files[0];
     if (!file) {
         alert('Please choose an image file.');
         return;
@@ -65,33 +80,30 @@ document.getElementById('convertPdfButton').addEventListener('click', function()
 
     const reader = new FileReader();
     reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            const pdf = new jsPDF();
-            pdf.addImage(img, 'JPEG', 10, 10, 180, 0);
-            const pdfBlob = pdf.output('blob');
-            const downloadURL = URL.createObjectURL(pdfBlob);
-            
-            document.getElementById('downloadPdfButton').href = downloadURL;
-            document.getElementById('downloadPdfButton').download = 'converted_image.pdf';
-            document.getElementById('downloadPdfButton').style.display = 'block';
-        };
-        img.src = event.target.result;
+        const pdf = new jsPDF();
+        pdf.addImage(event.target.result, 'JPEG', 10, 10, 180, 0);
+        pdf.save('converted_image.pdf');
+        downloadPdfButton.style.display = 'block';
     };
     reader.readAsDataURL(file);
 });
 
 // Background Remover
-document.getElementById('removeBgButton').addEventListener('click', function() {
-    const file = bgInput.files[0];
+const bgInput = document.getElementById('bgInput');
+const removeBgButton = document.getElementById('removeBgButton');
+const downloadBgButton = document.getElementById('downloadBgButton');
+const bgProgressBar = document.getElementById('bgProgressBar');
+const trialsRemainingSpan = document.getElementById('trials-remaining');
+let trialsRemaining = 5;
 
+removeBgButton.addEventListener('click', () => {
+    const file = bgInput.files[0];
     if (!file) {
         alert('Please choose an image file.');
         return;
     }
 
     if (trialsRemaining > 0) {
-        // Simulate background removal process
         removeBgButton.disabled = true;
         bgProgressBar.style.width = '0%';
         bgProgressBar.style.display = 'block';
@@ -105,7 +117,10 @@ document.getElementById('removeBgButton').addEventListener('click', function() {
                 downloadBgButton.style.display = 'block';
                 removeBgButton.disabled = false;
                 trialsRemaining--;
-                document.getElementById('trials-remaining').textContent = trialsRemaining;
+                trialsRemainingSpan.textContent = trialsRemaining;
+                if (trialsRemaining === 0) {
+                    alert('You have used all your free trials. Please purchase premium to continue.');
+                }
             }
         }, 500);
     } else {
