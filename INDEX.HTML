@@ -9,53 +9,53 @@
 <body>
 
     <nav>
+        <div class="nav-container">
+        <h1>AI Image Converter</h1>
         <ul>
-            <li><a href="#image-converter">Image Converter</a></li>
-            <li><a href="#pdf-converter">PDF Converter</a></li>
-            <li><a href="#background-remover">Remove Background</a></li>
+            <li><button id="imageConverterBtn">Image Converter</button></li>
+            <li><button id="pdfConverterBtn">PDF Converter</button></li>
+            <li><button id="removeBackgroundBtn">Remove Background</button></li>
         </ul>
+        </div>
     </nav>
 
-    <main>
-        <section id="image-converter" class="tool-section">
+    <div class="container">
+
+        <section id="imageConverterSection" class="tool-section">
             <h2>Image Converter</h2>
-            <input type="file" id="imageInput" accept="image/*">
-            <label for="imageInput" class="file-upload-button">Choose Image</label>
-            <select id="formatSelect">
+            <input type="file" id="imageUpload" accept="image/*">
+            <select id="outputFormat">
                 <option value="png">PNG</option>
                 <option value="jpg">JPG</option>
                 <option value="webp">WebP</option>
             </select>
-            <button id="convertButton">Convert</button>
-            <div id="progressBar"></div>
-            <a id="downloadButton" style="display: none;" download>Download</a>
-        </section>
-
-        <section id="pdf-converter" class="tool-section">
-            <h2>PDF Converter</h2>
-            <input type="file" id="pdfInput" accept="image/*">
-            <label for="pdfInput" class="file-upload-button">Choose Image</label>
-            <button id="convertPdfButton">Convert to PDF</button>
-            <div id="pdfProgressBar"></div>
-            <a id="downloadPdfButton" style="display: none;" download>Download</a>
-        </section>
-
-        <section id="background-remover" class="tool-section">
-            <h2>Remove Background</h2>
-            <input type="file" id="bgInput" accept="image/*">
-            <label for="bgInput" class="file-upload-button">Choose Image</label>
-            <button id="removeBgButton">Remove Background</button>
-            <div id="bgProgressBar"></div>
-            <a id="downloadBgButton" style="display: none;" download>Download</a>
-            <div id="trial-info">
-                <p>You have <span id="trials-remaining">5</span> free trials remaining.</p>
-                <button id="premiumButton">Purchase Premium</button>
+            <button id="convertImageBtn">Convert</button>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
             </div>
+            <a id="downloadLink" style="display: none;" download>Download</a>
         </section>
-    </main>
+
+        <section id="pdfConverterSection" class="tool-section" style="display: none;">
+            <h2>PDF Converter</h2>
+            <input type="file" id="pdfUpload" accept="image/*">
+            <button id="convertToPdfBtn">Convert to PDF</button>
+            <a id="pdfDownloadLink" style="display: none;" download="converted.pdf">Download PDF</a>
+        </section>
+
+        <section id="removeBackgroundSection" class="tool-section" style="display: none;">
+            <h2>Remove Background</h2>
+            <input type="file" id="bgRemovalUpload" accept="image/*">
+            <p>Free Trials Remaining: <span id="trialsRemaining">5</span></p>
+            <button id="removeBgBtn">Remove Background</button>
+            <button id="premiumBtn">Get Premium Access</button>
+            <a id="bgRemovalDownloadLink" style="display: none;" download>Download</a>
+        </section>
+
+    </div>
 
     <footer>
-        <p>&copy; 2025 AI Image Converter</p>
+        <p>© 2025 AI Image Converter</p>
     </footer>
 
     <script src="script.js"></script>
