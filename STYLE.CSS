@@ -137,7 +137,7 @@ nav button:hover {
 .tool-section input[type="file"],
 .tool-section select,
 .tool-section input[type="color"],
-.tool-section input[type="range"]{
+.tool-section input[type="range"] {
   margin-bottom: 20px;
   padding: 14px;
   border-radius: 10px;
