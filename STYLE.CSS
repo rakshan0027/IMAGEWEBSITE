@@ -220,7 +220,7 @@ nav button:hover {
 }
 
 #downloadLink:hover,
-#pdfDownloadLink:hover,
+#pdfDownloadLink,
 #bgRemovalDownloadLink:hover,
 #blurDownloadLink:hover,
 #bgChangeDownloadLink:hover,
@@ -232,7 +232,8 @@ nav button:hover {
 #imagePreview,
 #blurPreview,
 #bgChangePreview,
-#shadowPreview {
+#shadowPreview,
+#pixoImage{
   max-width: 100%;
   max-height: 350px;
   display: none;
@@ -293,4 +294,18 @@ footer {
     width: 100%;
     padding: 12px;
   }
+}
+
+#pixoEditorSection {
+  text-align: center; /* Center elements in the section */
+}
+
+#pixoImageUpload {
+  margin-bottom: 20px;
+}
+
+#pixoImage {
+  max-width: 100%; /* Responsive image */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
 }
