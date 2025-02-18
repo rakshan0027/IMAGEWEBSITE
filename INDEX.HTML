@@ -14,7 +14,7 @@
         <h1>AI Image Editor</h1>
         <ul>
             <li><button id="imageConverterBtn">Image Converter</button></li>
-            <li><button id="blurBackgroundBtn">Blur Background</button></li>
+            <li><button id="removeBackgroundBtn">Remove Background</button></li>
             <li><button id="changeBackgroundBtn">Change Background</button></li>
             <li><button id="addShadowBtn">Add Shadow</button></li>
         </ul>
@@ -39,14 +39,12 @@
             <a id="downloadLink" style="display: none;" download>Download</a>
         </section>
 
-        <section id="blurBackgroundSection" class="tool-section" style="display: none;">
-            <h2>Blur Background</h2>
+        <section id="removeBackgroundSection" class="tool-section" style="display: none;">
+            <h2>Remove Background</h2>
             <input type="file" id="blurUpload" accept="image/*">
-            <label for="blurLevel">Blur Level:</label>
-            <input type="range" id="blurLevel" min="1" max="10" value="5">
-            <button id="blurBtn">Blur It</button>
-            <img id="blurPreview" src="" alt="Blurred Image" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
-            <a id="blurDownloadLink" style="display: none;" download="blurred_image.png">Download</a>
+            <button id="blurBtn">Remove Background</button>
+            <img id="blurPreview" src="" alt="Background Removed" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <a id="blurDownloadLink" style="display: none;" download="background_removed.png">Download</a>
         </section>
 
         <section id="changeBackgroundSection" class="tool-section" style="display: none;">
