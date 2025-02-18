@@ -1,20 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation Buttons
     const imageConverterBtn = document.getElementById('imageConverterBtn');
-    const blurBackgroundBtn = document.getElementById('blurBackgroundBtn');
+    const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');
     const changeBackgroundBtn = document.getElementById('changeBackgroundBtn');
     const addShadowBtn = document.getElementById('addShadowBtn');
 
     // Sections
     const imageConverterSection = document.getElementById('imageConverterSection');
-    const blurBackgroundSection = document.getElementById('blurBackgroundSection');
+    const removeBackgroundSection = document.getElementById('removeBackgroundSection');
     const changeBackgroundSection = document.getElementById('changeBackgroundSection');
     const addShadowSection = document.getElementById('addShadowSection');
 
     // Helper Function to Hide All Sections
     function hideAllSections() {
       imageConverterSection.style.display = 'none';
-      blurBackgroundSection.style.display = 'none';
+      removeBackgroundSection.style.display = 'none';
       changeBackgroundSection.style.display = 'none';
       addShadowSection.style.display = 'none';
     }
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navigation Button Event Listeners
     imageConverterBtn.addEventListener('click', () => showSection(imageConverterSection));
-    blurBackgroundBtn.addEventListener('click', () => showSection(blurBackgroundSection));
+    removeBackgroundBtn.addEventListener('click', () => showSection(removeBackgroundSection));
     changeBackgroundBtn.addEventListener('click', () => showSection(changeBackgroundSection));
     addShadowBtn.addEventListener('click', () => showSection(addShadowSection));
 
@@ -43,13 +43,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagePreview = document.getElementById('imagePreview');
 
     convertImageBtn.addEventListener('click', () => {
-      // (Previous Image Conversion Logic - No Changes Needed)
-      // ... (Existing code for image conversion) ...
+        const file = imageUpload.files[0];
+        if (file) {
+            // Reset progress bar and download link
+            progressBar.style.width = '0%';
+            downloadLink.style.display = 'none';
+            imagePreview.style.display = 'none'; // Hide the preview initially
+
+            // Simulate conversion progress
+            simulateProgress(progressBar, () => {
+                // Simulate a converted image (replace with actual conversion logic)
+                const imageUrl = URL.createObjectURL(file);
+
+                // Set image preview
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block'; // Show the image
+
+                // Create a temporary canvas to convert the image
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = function() {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    // Convert to the selected format
+                    let dataURL;
+                    const format = outputFormat.value;
+                    switch (format) {
+                        case 'png':
+                            dataURL = canvas.toDataURL('image/png');
+                            break;
+                        case 'jpg':
+                            dataURL = canvas.toDataURL('image/jpeg');
+                            break;
+                        case 'webp':
+                            dataURL = canvas.toDataURL('image/webp');
+                            break;
+                        default:
+                            dataURL = canvas.toDataURL('image/png'); // Default to PNG
+                    }
+
+                    // Set download link
+                    downloadLink.href = dataURL;
+                    downloadLink.download = `converted.${format}`;
+                    downloadLink.style.display = 'block';
+
+                     // Revoke the object URL after the download starts
+                    URL.revokeObjectURL(imageUrl);
+
+                };
+                img.src = imageUrl;
+
+            });
+        } else {
+            alert('Please upload an image.');
+        }
     });
 
-    // ---- Blur Background ----
+    // ---- Remove Background ----
     const blurUpload = document.getElementById('blurUpload');
-    const blurLevelInput = document.getElementById('blurLevel');
     const blurBtn = document.getElementById('blurBtn');
     const blurPreview = document.getElementById('blurPreview');
     const blurDownloadLink = document.getElementById('blurDownloadLink');
@@ -57,14 +111,13 @@ document.addEventListener('DOMContentLoaded', () => {
     blurBtn.addEventListener('click', async () => {
       const file = blurUpload.files[0];
       if (file) {
-        const blurLevel = blurLevelInput.value;
 
         try {
           const imageUrl = URL.createObjectURL(file);
           blurPreview.src = imageUrl;
           blurPreview.style.display = 'block';
 
-          const result = await removeBgBlurBackground(imageUrl, blurLevel, removeBgApiKey);
+          const result = await removeBg(imageUrl, removeBgApiKey);
           blurPreview.src = result;
           blurDownloadLink.href = result;
           blurDownloadLink.style.display = "block";
@@ -133,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---- Remove Background functions ----
-    async function removeBgBlurBackground(imageUrl, level, apiKey) {
+    async function removeBg(imageUrl, apiKey) {
       const base64Image = await convertImageToBase64(imageUrl);
       try {
         const response = await fetch('https://api.remove.bg/v1.0/removebg', {
@@ -144,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           body: JSON.stringify({
             image_file_b64: base64Image,
-            bg_blur: level
+            size: "auto"
           }),
         });
 
@@ -213,6 +266,18 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         throw new Error("Remove bg failed");
       }
+    }
+
+    function simulateProgress(progressBar, callback) {
+        let width = 0;
+        const interval = setInterval(() => {
+            width += 10;
+            progressBar.style.width = width + '%';
+            if (width >= 100) {
+                clearInterval(interval);
+                callback();
+            }
+        }, 50);
     }
 
     function convertImageToBase64(imageUrl) {
