@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-     // Navigation Buttons
+    // Navigation Buttons
     const pixoEditorBtn = document.getElementById('pixoEditorBtn');
     const imageConverterBtn = document.getElementById('imageConverterBtn');
     const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');
@@ -35,31 +35,40 @@ document.addEventListener('DOMContentLoaded', () => {
     changeBackgroundBtn.addEventListener('click', () => showSection(changeBackgroundSection));
     addShadowBtn.addEventListener('click', () => showSection(addShadowSection));
 
-
+   
+       
     // Pixo Integration
-    const pixoImageUpload = document.getElementById('pixoImageUpload');
-    const pixoImage = document.getElementById('pixoImage');
-    const pixoApiKey = '44l99e8hkfu0'; // Your Pixo API Key
+    const fileInput = document.getElementById('file');
+    const pixoApiKey = '44l99e8hkfu0';
 
-    pixoImageUpload.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            pixoImage.src = imageUrl;
-            pixoImage.style.display = 'block';
+    fileInput.onchange = function() {
+        const file = this.files[0];
+        const imageUrl = URL.createObjectURL(file); // Create object URL
+        // new Pixo.Bridge({
+        //     apikey: pixoApiKey,
+        //     type: 'modal',
+        //     onSave: function(arg) {
+        //         document.body.appendChild(arg.toImage());
+        //     }
+        // }).edit(this.files[0]);
 
-            pixoImage.onload = function() {
-                const editor = new Pixo.Bridge({ apikey: pixoApiKey });
-                editor.edit(pixoImage);
+        
+       const img = new Image();
+            img.src = imageUrl;
+            img.onload = function() {
+              
+                new Pixo.Bridge({
+                    apikey: pixoApiKey,
+                    type: 'modal',
+                    onSave: function(arg) {
+                        document.body.appendChild(arg.toImage());
+                    }
+                }).edit(img);
             };
 
-             // Revoke the object URL after the download starts
-            URL.revokeObjectURL(imageUrl);
-        }
-    });
-
-        // Remove Background API Key
-    const removeBgApiKey = 'AH2afjdh9BatTRDPxsNkjzRm'; // Replace with your actual API key
+        };
+   
+  const removeBgApiKey = 'AH2afjdh9BatTRDPxsNkjzRm'; // Replace with your actual API key
 
     // ---- Image Converter ----
     const imageUpload = document.getElementById('imageUpload');
@@ -160,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // ---- Change Background ----
+        // ---- Change Background ----
     const bgChangeUpload = document.getElementById('bgChangeUpload');
     const bgColorInput = document.getElementById('bgColor');
     const bgChangeBtn = document.getElementById('bgChangeBtn');
@@ -192,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // ---- Add Shadow ----
+        // ---- Add Shadow ----
     const shadowUpload = document.getElementById('shadowUpload');
     const shadowBtn = document.getElementById('shadowBtn');
     const shadowPreview = document.getElementById('shadowPreview');
@@ -221,8 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-
-    // ---- Remove Background functions ----
+        // ---- Remove Background functions ----
     async function removeBg(imageUrl, apiKey) {
       const base64Image = await convertImageToBase64(imageUrl);
       try {
@@ -249,8 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error("Remove bg failed");
       }
     }
-
-      async function removeBgChangeBackground(imageUrl, color, apiKey) {
+        async function removeBgChangeBackground(imageUrl, color, apiKey) {
       const base64Image = await convertImageToBase64(imageUrl);
 
       try {
@@ -317,8 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
 
-
-    function convertImageToBase64(imageUrl) {
+      function convertImageToBase64(imageUrl) {
       return new Promise((resolve, reject) => {
           const img = new Image();
           img.crossOrigin = 'anonymous'; // Important for security with images from other domains
@@ -340,5 +346,4 @@ document.addEventListener('DOMContentLoaded', () => {
           img.src = imageUrl;
       });
     }
-
 });
