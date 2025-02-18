@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Navigation Buttons
+     // Navigation Buttons
+    const pixoEditorBtn = document.getElementById('pixoEditorBtn');
     const imageConverterBtn = document.getElementById('imageConverterBtn');
     const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');
     const changeBackgroundBtn = document.getElementById('changeBackgroundBtn');
     const addShadowBtn = document.getElementById('addShadowBtn');
 
     // Sections
+    const pixoEditorSection = document.getElementById('pixoEditorSection');
     const imageConverterSection = document.getElementById('imageConverterSection');
     const removeBackgroundSection = document.getElementById('removeBackgroundSection');
     const changeBackgroundSection = document.getElementById('changeBackgroundSection');
@@ -13,25 +15,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper Function to Hide All Sections
     function hideAllSections() {
-      imageConverterSection.style.display = 'none';
-      removeBackgroundSection.style.display = 'none';
-      changeBackgroundSection.style.display = 'none';
-      addShadowSection.style.display = 'none';
+        pixoEditorSection.style.display = 'none';
+        imageConverterSection.style.display = 'none';
+        removeBackgroundSection.style.display = 'none';
+        changeBackgroundSection.style.display = 'none';
+        addShadowSection.style.display = 'none';
     }
 
     // Helper Function to Show Section
     function showSection(section) {
-      hideAllSections();
-      section.style.display = 'block';
+        hideAllSections();
+        section.style.display = 'block';
     }
 
     // Navigation Button Event Listeners
+    pixoEditorBtn.addEventListener('click', () => showSection(pixoEditorSection));
     imageConverterBtn.addEventListener('click', () => showSection(imageConverterSection));
     removeBackgroundBtn.addEventListener('click', () => showSection(removeBackgroundSection));
     changeBackgroundBtn.addEventListener('click', () => showSection(changeBackgroundSection));
     addShadowBtn.addEventListener('click', () => showSection(addShadowSection));
 
-    // Remove Background API Key
+
+    // Pixo Integration
+    const pixoImageUpload = document.getElementById('pixoImageUpload');
+    const pixoImage = document.getElementById('pixoImage');
+    const pixoApiKey = '44l99e8hkfu0'; // Your Pixo API Key
+
+    pixoImageUpload.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            pixoImage.src = imageUrl;
+            pixoImage.style.display = 'block';
+
+            pixoImage.onload = function() {
+                const editor = new Pixo.Bridge({ apikey: pixoApiKey });
+                editor.edit(pixoImage);
+            };
+
+             // Revoke the object URL after the download starts
+            URL.revokeObjectURL(imageUrl);
+        }
+    });
+
+        // Remove Background API Key
     const removeBgApiKey = 'AH2afjdh9BatTRDPxsNkjzRm'; // Replace with your actual API key
 
     // ---- Image Converter ----
@@ -102,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ---- Remove Background ----
+        // ---- Remove Background ----
     const blurUpload = document.getElementById('blurUpload');
     const blurBtn = document.getElementById('blurBtn');
     const blurPreview = document.getElementById('blurPreview');
@@ -121,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
           blurPreview.src = result;
           blurDownloadLink.href = result;
           blurDownloadLink.style.display = "block";
+
+          // Revoke the object URL after the download starts
+          URL.revokeObjectURL(imageUrl);
 
         } catch (e) {
           alert(e);
@@ -151,6 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
           bgChangePreview.src = result;
           bgChangeDownloadLink.href = result;
           bgChangeDownloadLink.style.display = "block";
+
+           // Revoke the object URL after the download starts
+           URL.revokeObjectURL(imageUrl);
         } catch (e) {
           alert(e);
         }
@@ -177,6 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
           shadowPreview.src = result;
           shadowDownloadLink.href = result;
           shadowDownloadLink.style.display = "block";
+
+            // Revoke the object URL after the download starts
+            URL.revokeObjectURL(imageUrl);
         } catch (e) {
           alert(e);
         }
@@ -184,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Choose a file");
       }
     });
+
 
     // ---- Remove Background functions ----
     async function removeBg(imageUrl, apiKey) {
@@ -213,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    async function removeBgChangeBackground(imageUrl, color, apiKey) {
+      async function removeBgChangeBackground(imageUrl, color, apiKey) {
       const base64Image = await convertImageToBase64(imageUrl);
 
       try {
@@ -280,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
 
+
     function convertImageToBase64(imageUrl) {
       return new Promise((resolve, reject) => {
           const img = new Image();
@@ -302,4 +340,5 @@ document.addEventListener('DOMContentLoaded', () => {
           img.src = imageUrl;
       });
     }
+
 });
