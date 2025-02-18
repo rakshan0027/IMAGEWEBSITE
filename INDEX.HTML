@@ -13,7 +13,8 @@
         <div class="nav-container">
         <h1>AI Image Editor</h1>
         <ul>
-            <li><button id="imageConverterBtn">Image Converter</button></li>
+            <li><button id="pixoEditorBtn">Pixo Editor</button></li>
+             <li><button id="imageConverterBtn">Image Converter</button></li>
             <li><button id="removeBackgroundBtn">Remove Background</button></li>
             <li><button id="changeBackgroundBtn">Change Background</button></li>
             <li><button id="addShadowBtn">Add Shadow</button></li>
@@ -22,8 +23,13 @@
     </nav>
 
     <div class="container">
+         <section id="pixoEditorSection" class="tool-section" style="display: none;">
+            <h2>Pixo Image Editor</h2>
+            <input type="file" id="pixoImageUpload" accept="image/*">
+            <img id="pixoImage" src="" alt="Selected Image" style="display: none; max-width: 500px;">
+        </section>
 
-        <section id="imageConverterSection" class="tool-section">
+        <section id="imageConverterSection" class="tool-section" style="display: none;">
             <h2>Image Converter</h2>
             <input type="file" id="imageUpload" accept="image/*">
             <select id="outputFormat">
@@ -72,5 +78,6 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="https://pixoeditor.com/editor/scripts/bridge.m.js"></script> <!-- Pixo Bridge Script -->
 </body>
 </html>
