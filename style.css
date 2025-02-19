@@ -209,7 +209,12 @@ nav button:hover {
 #bgRemovalDownloadLink,
 #blurDownloadLink,
 #bgChangeDownloadLink,
-#shadowDownloadLink {
+#shadowDownloadLink,
+#downloadLinkSplit,
+#downloadLinkMerge,
+#downloadLinkCompress,
+#downloadLinkJpg,
+#downloadLinkPdf {
   display: none;
   margin-top: 20px;
   text-decoration: none;
@@ -224,7 +229,12 @@ nav button:hover {
 #bgRemovalDownloadLink:hover,
 #blurDownloadLink:hover,
 #bgChangeDownloadLink:hover,
-#shadowDownloadLink:hover {
+#shadowDownloadLink:hover,
+#downloadLinkSplit:hover,
+#downloadLinkMerge:hover,
+#downloadLinkCompress:hover,
+#downloadLinkJpg:hover,
+#downloadLinkPdf:hover {
   color: var(--accent-color);
   transform: translateX(5px);
 }
@@ -253,59 +263,4 @@ footer {
     letter-spacing: 0.3px;
 }
 
-/* Responsiveness */
-@media (max-width: 768px) {
-  .container,
-  .nav-container {
-    width: 95%;
-    padding: 20px;
-  }
-
-  nav h1,
-  nav ul {
-    text-align: center;
-  }
-
-  nav h1 {
-    margin-bottom: 15px;
-  }
-
-  nav ul {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  nav li {
-    margin: 10px 0;
-  }
-
-  nav button {
-    width: 100%;
-  }
-
-  .tool-section input[type="file"],
-  .tool-section select,
-  .tool-section input[type="color"],
-  .tool-section input[type="range"] {
-    max-width: 100%;
-  }
-
-  .tool-section button {
-    width: 100%;
-    padding: 12px;
-  }
-}
-
-#pixoEditorSection {
-  text-align: center; /* Center elements in the section */
-}
-
-#pixoImageUpload {
-  margin-bottom: 20px;
-}
-
-#pixoImage {
-  max-width: 100%; /* Responsive image */
-  border-radius: 8px; /* Optional: Add rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
-}
+/*
