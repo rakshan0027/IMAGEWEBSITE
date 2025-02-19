@@ -14,19 +14,19 @@
         <h1>AI Image Editor</h1>
         <ul>
             <li><button id="pixoEditorBtn">Pixo Editor</button></li>
-             <li><button id="imageConverterBtn">Image Converter</button></li>
+            <li><button id="imageConverterBtn">Image Converter</button></li>
             <li><button id="removeBackgroundBtn">Remove Background</button></li>
             <li><button id="changeBackgroundBtn">Change Background</button></li>
             <li><button id="addShadowBtn">Add Shadow</button></li>
+              <li><button id="pdfToolsBtn">PDF Tools</button></li>
         </ul>
         </div>
     </nav>
 
     <div class="container">
-         <section id="pixoEditorSection" class="tool-section" style="display: none;">
+        <section id="pixoEditorSection" class="tool-section" style="display: none;">
             <h2>Pixo Image Editor</h2>
-            <input type="file" id="pixoImageUpload" accept="image/*">
-            <img id="pixoImage" src="" alt="Selected Image" style="display: none; max-width: 500px;">
+            <input type="file" id="file" accept="image/*">        
         </section>
 
         <section id="imageConverterSection" class="tool-section" style="display: none;">
@@ -71,6 +71,11 @@
             <a id="shadowDownloadLink" style="display: none;" download="shadow_added.png">Download</a>
         </section>
 
+         <section id="pdfToolsSection" class="tool-section" style="display: none;">
+            <h2>PDF Tools</h2>
+            <p>Please use I Love PDF website for editing, optimizing and converting PDFs</p>
+        </section>
+
         <footer>
             <p>© 2025 AI Image Editor</p>
         </footer>
@@ -78,13 +83,7 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="https://pixoeditor.com/editor/scripts/bridge.m.js"></script> <!-- Pixo Bridge Script -->
-    <section id="pixoEditorSection" class="tool-section" style="display: none;">
-            <h2>Pixo Image Editor</h2>
-            <input type="file" id="file" accept="image/*">
-            
-             <img id="pixoImage" src="" alt="Selected Image" style="display: none; max-width: 500px;">
-        </section>
-        
+    <script src="https://pixoeditor.com/editor/scripts/bridge.m.js"></script>
+    
 </body>
 </html>
