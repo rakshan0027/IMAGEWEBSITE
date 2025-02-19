@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');
     const changeBackgroundBtn = document.getElementById('changeBackgroundBtn');
     const addShadowBtn = document.getElementById('addShadowBtn');
+     const pdfToolsBtn = document.getElementById('pdfToolsBtn');
 
     // Sections
     const pixoEditorSection = document.getElementById('pixoEditorSection');
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeBackgroundSection = document.getElementById('removeBackgroundSection');
     const changeBackgroundSection = document.getElementById('changeBackgroundSection');
     const addShadowSection = document.getElementById('addShadowSection');
+    const pdfToolsSection = document.getElementById('pdfToolsSection');
 
     // Helper Function to Hide All Sections
     function hideAllSections() {
@@ -20,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         removeBackgroundSection.style.display = 'none';
         changeBackgroundSection.style.display = 'none';
         addShadowSection.style.display = 'none';
+         pdfToolsSection.style.display = 'none';
     }
 
     // Helper Function to Show Section
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     removeBackgroundBtn.addEventListener('click', () => showSection(removeBackgroundSection));
     changeBackgroundBtn.addEventListener('click', () => showSection(changeBackgroundSection));
     addShadowBtn.addEventListener('click', () => showSection(addShadowSection));
+        pdfToolsBtn.addEventListener('click', () => showSection(pdfToolsSection));
 
    
        
