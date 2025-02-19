@@ -75,32 +75,98 @@
         <!-- --- New Code of Ilovepdf --- -->
         <section id="pdfToolsSection" class="tool-section" style="display: none;">
             <h2>PDF Tools</h2>
-            <!-- merge -->
-            <h3>Merge</h3>
-            <input type="file" id="firstFileMerge" accept=".pdf">
-            <input type="file" id="secondFileMerge" accept=".pdf">
-            <button id="mergePdfBtn">Merge PDFs</button>
-            <a id="downloadLinkMerge" style="display: none;" download="merged.pdf">Download Merge</a>
-            <!-- Split -->
-            <h3>Split</h3>
-            <input type="file" id="splitPdf" accept=".pdf">
-            <button id="splitPdfBtn">Split PDF</button>
-            <a id="downloadLinkSplit" style="display: none;" download="split.pdf">Download Split</a>
-            <!-- compress -->
-            <h3>Compress</h3>
-            <input type="file" id="compressPdf" accept=".pdf">
-            <button id="compressPdfBtn">Compress PDF</button>
-            <a id="downloadLinkCompress" style="display: none;" download="compress.pdf">Download Compress</a>
-            <!-- JpgtoPdf -->
-            <h3>Jpg to PDF</h3>
-            <input type="file" id="JpgtoPdfUpload" accept="image/*">
-            <button id="JpgtoPdfBtn">Jpg to PDF</button>
-            <a id="downloadLinkJpg" style="display: none;" download="JpgtoPdf.pdf">Download Jpg</a>
-            <!-- PdftoJpg -->
-            <h3>PDF to JPG</h3>
-            <input type="file" id="PdftoJpgUpload" accept=".pdf">
-            <button id="PdftoJpgBtn">PDF to Jpg</button>
-            <a id="downloadLinkPdf" style="display: none;" download="PdftoJpg.zip">Download PDF</a>
+            <div class="pdf-tools-grid">
+                <!-- Merge PDF -->
+                <div class="pdf-tool">
+                    <h3>Merge</h3>
+                    <input type="file" id="firstFileMerge" accept=".pdf">
+                    <input type="file" id="secondFileMerge" accept=".pdf">
+                    <button id="mergePdfBtn" download="compress.pdf">Merge</button>
+                    <a id="downloadLinkMerge" style="display: none;" download="merged.pdf">Download Merge</a>
+                </div>
+
+                <!-- Split PDF -->
+                <div class="pdf-tool">
+                    <h3>Split</h3>
+                    <input type="file" id="splitPdfFile" accept=".pdf">
+                    <button id="splitPdfBtn" download="split.pdf">Split</button>
+                    <a id="downloadLinkSplit" style="display: none;" download="split.pdf">Download Split</a>
+                </div>
+
+                <!-- Compress PDF -->
+                <div class="pdf-tool">
+                    <h3>Compress</h3>
+                    <input type="file" id="compressPdfFile" accept=".pdf">
+                    <button id="compressPdfBtn" download="compress.pdf">Compress</button>
+                    <a id="downloadLinkCompress" style="display: none;" download="compress.pdf">Download Compress</a>
+                </div>
+
+                <!-- JPG to PDF -->
+                <div class="pdf-tool">
+                    <h3>JPG to PDF</h3>
+                    <input type="file" id="JpgtoPdfUpload" accept="image/*">
+                    <button id="JpgtoPdfBtn" download="comporess.pdf">JPG to PDF</button>
+                    <a id="downloadLinkJpg" style="display: none;" download="JpgtoPdf.pdf">Download Jpg</a>
+                </div>
+
+                <!-- PDF to JPG -->
+                <div class="pdf-tool">
+                    <h3>PDF to JPG</h3>
+                    <input type="file" id="PdftoJpgUpload" accept=".pdf">
+                    <button id="PdftoJpgBtn" download="pdftojpg.zip">PDF to JPG</button>
+                    <a id="downloadLinkPdf" style="display: none;" download="PdftoJpg.zip">Download PDF</a>
+                </div>
+
+                <!-- PDF to WORD -->
+                <div class="pdf-tool">
+                    <h3>PDF to WORD</h3>
+                    <input type="file" id="pdfToWordUpload" accept=".pdf">
+                    <button id="pdfToWordBtn" download="pdftoword.docx">PDF to Word</button>
+                    <a id="downloadLinkPdfWord" style="display: none;" download="pdfToWord.zip">Download Word</a>
+                </div>
+
+                <!-- PDF to POWERPOINT -->
+                <div class="pdf-tool">
+                    <h3>PDF to Powerpoint</h3>
+                    <input type="file" id="pdfToPptUpload" accept=".pdf">
+                    <button id="pdfToPptBtn" download="pdftoPpt.pptx">PDF to Powerpoint</button>
+                    <a id="downloadLinkPdfPpt" style="display: none;" download="pdfToPpt.zip">Download Ppt</a>
+                </div>
+
+                <!-- PDF to EXCEL -->
+                <div class="pdf-tool">
+                    <h3>PDF to Excel</h3>
+                    <input type="file" id="pdfToExcelUpload" accept=".pdf">
+                    <button id="pdfToExcelBtn" download="pdftoExcel.xlsx">PDF to Excel</button>
+                    <a id="downloadLinkPdfExcel" style="display: none;" download="pdfToExcel.zip">Download Excel</a>
+                </div>
+
+                <!-- WORD to PDF -->
+                <div class="pdf-tool">
+                    <h3>Word to PDF</h3>
+                    <input type="file" id="wordToPdfUpload" accept=".doc,.docx">
+                    <button id="wordToPdfBtn" download="wordToPdf.pdf">Word to PDF</button>
+                    <a id="downloadLinkWordPdf" style="display: none;" download="wordToPdf.zip">Download Word</a>
+                </div>
+
+                <!-- Powerpoint to PDF -->
+                <div class="pdf-tool">
+                    <h3>Powerpoint to PDF</h3>
+                    <input type="file" id="pptToPdfUpload" accept=".ppt, .pptx">
+                    <button id="pptToPdfBtn" download="pptToPdf.pdf">Powerpoint to PDF</button>
+                    <a id="downloadLinkPptPdf" style="display: none;" download="pptToPdf.zip">Download Ppt</a>
+                </div>
+
+                <!-- HTML to PDF -->
+                <div class="pdf-tool">
+                    <h3>Html to PDF</h3>
+                    <input type="file" id="htmlToPdfUpload" accept=".html, .htm">
+                    <button id="htmlToPdfBtn" download="htmlToPdf.pdf">HTML to PDF</button>
+                    <a id="downloadLinkHtmlPdf" style="display: none;" download="htmlToPdf.zip">Download HTML</a>
+                </div>
+
+            </div>
+
         </section>
 
         <footer>
