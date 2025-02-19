@@ -1,0 +1,311 @@
+/* Global Styles */
+:root {
+  --primary-color: #3498db; /* Blue */
+  --secondary-color: #2ecc71; /* Green */
+  --accent-color: #f39c12; /* Orange */
+  --text-color: #ecf0f1; /* Light Gray */
+  --bg-color: #2c3e50; /* Dark Blue */
+  --card-bg-color: #34495e; /* Darker Blue */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Gradient Background */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, #4CAF50, #2196F3, #E91E63, #FF9800);
+    background-size: 400% 400%;
+    z-index: -1; /* Behind the content */
+    animation: gradientAnimation 15s ease infinite;
+    opacity: 0.6; /* Subtle effect */
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation */
+nav {
+  background: rgba(44, 62, 80, 0.9); /* Semi-transparent */
+  color: var(--text-color);
+  padding: 20px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
+}
+
+.nav-container {
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h1 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+nav ul {
+  float: right;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+nav li {
+  margin-left: 30px;
+}
+
+nav button {
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+nav button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+/* Tool Sections */
+.tool-section {
+  background: var(--card-bg-color);
+  padding: 30px;
+  margin-top: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.tool-section h2 {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 1.5em;
+}
+
+.tool-section input[type="file"],
+.tool-section select,
+.tool-section input[type="color"],
+.tool-section input[type="range"] {
+  margin-bottom: 20px;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background-color: #444;
+  color: var(--text-color);
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.tool-section input[type="file"]:focus,
+.tool-section select:focus,
+.tool-section input[type="color"]:focus,
+.tool-section input[type="range"]:focus {
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.4);
+}
+
+.tool-section button {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  padding: 14px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  outline: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tool-section button:hover {
+  background: #e67e22; /* A Slightly Darker Orange */
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.tool-section button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  background: #444;
+  border-radius: 10px;
+  height: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.progress-bar {
+  background: var(--secondary-color);
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 5px var(--secondary-color);
+}
+
+/* Download Links and Image Preview */
+#downloadLink,
+#pdfDownloadLink,
+#bgRemovalDownloadLink,
+#blurDownloadLink,
+#bgChangeDownloadLink,
+#shadowDownloadLink {
+  display: none;
+  margin-top: 20px;
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: 600;
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+#downloadLink:hover,
+#pdfDownloadLink,
+#bgRemovalDownloadLink:hover,
+#blurDownloadLink:hover,
+#bgChangeDownloadLink:hover,
+#shadowDownloadLink:hover {
+  color: var(--accent-color);
+  transform: translateX(5px);
+}
+
+#imagePreview,
+#blurPreview,
+#bgChangePreview,
+#shadowPreview,
+#pixoImage{
+  max-width: 100%;
+  max-height: 350px;
+  display: none;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
+}
+
+footer {
+    background: #222;
+    color: #ccc;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 0.9em;
+    letter-spacing: 0.3px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .container,
+  .nav-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  nav h1,
+  nav ul {
+    text-align: center;
+  }
+
+  nav h1 {
+    margin-bottom: 15px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  nav li {
+    margin: 10px 0;
+  }
+
+  nav button {
+    width: 100%;
+  }
+
+  .tool-section input[type="file"],
+  .tool-section select,
+  .tool-section input[type="color"],
+  .tool-section input[type="range"] {
+    max-width: 100%;
+  }
+
+  .tool-section button {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+#pixoEditorSection {
+  text-align: center; /* Center elements in the section */
+}
+
+#pixoImageUpload {
+  margin-bottom: 20px;
+}
+
+#pixoImage {
+  max-width: 100%; /* Responsive image */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
+}
