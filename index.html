@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Image Editor</title>
     <link rel="stylesheet" href="style.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4625351312268360"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
     <nav>
         <div class="nav-container">
-        <h1>AI Image Editor</h1>
-        <ul>
-            <li><button id="pixoEditorBtn">Pixo Editor</button></li>
-            <li><button id="imageConverterBtn">Image Converter</button></li>
-            <li><button id="removeBackgroundBtn">Remove Background</button></li>
-            <li><button id="changeBackgroundBtn">Change Background</button></li>
-            <li><button id="addShadowBtn">Add Shadow</button></li>
-              <li><button id="pdfToolsBtn">PDF Tools</button></li>
-        </ul>
+            <h1>AI Image Editor</h1>
+            <ul>
+                <li><button id="imageConverterBtn">Image Converter</button></li>
+                <li><button id="removeBackgroundBtn">Remove Background</button></li>
+                <li><button id="changeBackgroundBtn">Change Background</button></li>
+                <li><button id="addShadowBtn">Add Shadow</button></li>
+                <li><button id="pdfToolsBtn">PDF Tools</button></li>
+            </ul>
         </div>
     </nav>
 
     <div class="container">
-        <section id="pixoEditorSection" class="tool-section" style="display: none;">
-            <h2>Pixo Image Editor</h2>
-            <input type="file" id="file" accept="image/*">        
-        </section>
+       
 
         <section id="imageConverterSection" class="tool-section" style="display: none;">
             <h2>Image Converter</h2>
@@ -41,7 +39,8 @@
             <div class="progress-bar-container">
                 <div class="progress-bar"></div>
             </div>
-            <img id="imagePreview" src="" alt="Converted Image" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <img id="imagePreview" src="" alt="Converted Image"
+                style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
             <a id="downloadLink" style="display: none;" download>Download</a>
         </section>
 
@@ -49,7 +48,8 @@
             <h2>Remove Background</h2>
             <input type="file" id="blurUpload" accept="image/*">
             <button id="blurBtn">Remove Background</button>
-            <img id="blurPreview" src="" alt="Background Removed" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <img id="blurPreview" src="" alt="Background Removed"
+                style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
             <a id="blurDownloadLink" style="display: none;" download="background_removed.png">Download</a>
         </section>
 
@@ -59,7 +59,8 @@
             <label for="bgColor">Background Color:</label>
             <input type="color" id="bgColor" value="#000000">
             <button id="bgChangeBtn">Change It</button>
-            <img id="bgChangePreview" src="" alt="Background Changed" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <img id="bgChangePreview" src="" alt="Background Changed"
+                style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
             <a id="bgChangeDownloadLink" style="display: none;" download="background_changed.png">Download</a>
         </section>
 
@@ -67,13 +68,40 @@
             <h2>Add Shadow</h2>
             <input type="file" id="shadowUpload" accept="image/*">
             <button id="shadowBtn">Add Shadow</button>
-            <img id="shadowPreview" src="" alt="Shadow Added" style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
+            <img id="shadowPreview" src="" alt="Shadow Added"
+                style="display: none; max-width: 300px; max-height: 300px; margin-top: 10px;">
             <a id="shadowDownloadLink" style="display: none;" download="shadow_added.png">Download</a>
         </section>
 
-         <section id="pdfToolsSection" class="tool-section" style="display: none;">
+        <!-- --- New Code of Ilovepdf --- -->
+        <section id="pdfToolsSection" class="tool-section" style="display: none;">
             <h2>PDF Tools</h2>
-            <p>Please use I Love PDF website for editing, optimizing and converting PDFs</p>
+            <!-- merge -->
+            <h3>Merge</h3>
+            <input type="file" id="firstFileMerge" accept=".pdf">
+            <input type="file" id="secondFileMerge" accept=".pdf">
+            <button id="mergePdfBtn">Merge PDFs</button>
+            <a id="downloadLinkMerge" style="display: none;" download="merged.pdf">Download Merge</a>
+            <!-- Split -->
+            <h3>Split</h3>
+            <input type="file" id="splitPdf" accept=".pdf">
+            <button id="splitPdfBtn">Split PDF</button>
+            <a id="downloadLinkSplit" style="display: none;" download="split.pdf">Download Split</a>
+            <!-- compress -->
+            <h3>Compress</h3>
+            <input type="file" id="compressPdf" accept=".pdf">
+            <button id="compressPdfBtn">Compress PDF</button>
+            <a id="downloadLinkCompress" style="display: none;" download="compress.pdf">Download Compress</a>
+            <!-- JpgtoPdf -->
+            <h3>Jpg to PDF</h3>
+            <input type="file" id="JpgtoPdfUpload" accept="image/*">
+            <button id="JpgtoPdfBtn">Jpg to PDF</button>
+            <a id="downloadLinkJpg" style="display: none;" download="JpgtoPdf.pdf">Download Jpg</a>
+            <!-- PdftoJpg -->
+            <h3>PDF to JPG</h3>
+            <input type="file" id="PdftoJpgUpload" accept=".pdf">
+            <button id="PdftoJpgBtn">PDF to Jpg</button>
+            <a id="downloadLinkPdf" style="display: none;" download="PdftoJpg.zip">Download PDF</a>
         </section>
 
         <footer>
@@ -83,7 +111,6 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="https://pixoeditor.com/editor/scripts/bridge.m.js"></script>
-    
 </body>
+
 </html>
