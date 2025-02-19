@@ -1,15 +1,12 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation Buttons
-    const pixoEditorBtn = document.getElementById('pixoEditorBtn');
     const imageConverterBtn = document.getElementById('imageConverterBtn');
     const removeBackgroundBtn = document.getElementById('removeBackgroundBtn');
     const changeBackgroundBtn = document.getElementById('changeBackgroundBtn');
     const addShadowBtn = document.getElementById('addShadowBtn');
-     const pdfToolsBtn = document.getElementById('pdfToolsBtn');
+    const pdfToolsBtn = document.getElementById('pdfToolsBtn');
 
     // Sections
-    const pixoEditorSection = document.getElementById('pixoEditorSection');
     const imageConverterSection = document.getElementById('imageConverterSection');
     const removeBackgroundSection = document.getElementById('removeBackgroundSection');
     const changeBackgroundSection = document.getElementById('changeBackgroundSection');
@@ -18,12 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper Function to Hide All Sections
     function hideAllSections() {
-        pixoEditorSection.style.display = 'none';
         imageConverterSection.style.display = 'none';
         removeBackgroundSection.style.display = 'none';
         changeBackgroundSection.style.display = 'none';
         addShadowSection.style.display = 'none';
-         pdfToolsSection.style.display = 'none';
+        pdfToolsSection.style.display = 'none';
     }
 
     // Helper Function to Show Section
@@ -33,47 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Navigation Button Event Listeners
-    pixoEditorBtn.addEventListener('click', () => showSection(pixoEditorSection));
     imageConverterBtn.addEventListener('click', () => showSection(imageConverterSection));
     removeBackgroundBtn.addEventListener('click', () => showSection(removeBackgroundSection));
     changeBackgroundBtn.addEventListener('click', () => showSection(changeBackgroundSection));
     addShadowBtn.addEventListener('click', () => showSection(addShadowSection));
-        pdfToolsBtn.addEventListener('click', () => showSection(pdfToolsSection));
+    pdfToolsBtn.addEventListener('click', () => showSection(pdfToolsSection));
 
-   
-       
-    // Pixo Integration
-    const fileInput = document.getElementById('file');
-    const pixoApiKey = '44l99e8hkfu0';
 
-    fileInput.onchange = function() {
-        const file = this.files[0];
-        const imageUrl = URL.createObjectURL(file); // Create object URL
-        // new Pixo.Bridge({
-        //     apikey: pixoApiKey,
-        //     type: 'modal',
-        //     onSave: function(arg) {
-        //         document.body.appendChild(arg.toImage());
-        //     }
-        // }).edit(this.files[0]);
-
-        
-       const img = new Image();
-            img.src = imageUrl;
-            img.onload = function() {
-              
-                new Pixo.Bridge({
-                    apikey: pixoApiKey,
-                    type: 'modal',
-                    onSave: function(arg) {
-                        document.body.appendChild(arg.toImage());
-                    }
-                }).edit(img);
-            };
-
-        };
-   
-  const removeBgApiKey = 'AH2afjdh9BatTRDPxsNkjzRm'; // Replace with your actual API key
+    const removeBgApiKey = 'AH2afjdh9BatTRDPxsNkjzRm'; // Replace with your actual API key
 
     // ---- Image Converter ----
     const imageUpload = document.getElementById('imageUpload');
@@ -162,10 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
           blurPreview.src = result;
           blurDownloadLink.href = result;
           blurDownloadLink.style.display = "block";
-
-          // Revoke the object URL after the download starts
-          URL.revokeObjectURL(imageUrl);
-
+                URL.revokeObjectURL(imageUrl);
         } catch (e) {
           alert(e);
         }
@@ -195,9 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
           bgChangePreview.src = result;
           bgChangeDownloadLink.href = result;
           bgChangeDownloadLink.style.display = "block";
-
-           // Revoke the object URL after the download starts
-           URL.revokeObjectURL(imageUrl);
+             URL.revokeObjectURL(imageUrl);
         } catch (e) {
           alert(e);
         }
@@ -224,9 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
           shadowPreview.src = result;
           shadowDownloadLink.href = result;
           shadowDownloadLink.style.display = "block";
-
-            // Revoke the object URL after the download starts
-            URL.revokeObjectURL(imageUrl);
+               URL.revokeObjectURL(imageUrl);
         } catch (e) {
           alert(e);
         }
@@ -235,86 +191,273 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-        // ---- Remove Background functions ----
+    // --- New Code of Ilovepdf ---
+    // ---- New Code ----
+    const pdfToolsSection = document.getElementById('pdfToolsSection');
+    // const apiKey = document.getElementById('apiKey');
+
+    // merge
+    const mergePdfBtn = document.getElementById('mergePdfBtn');
+    const firstFileMerge = document.getElementById('firstFileMerge');
+    const secondFileMerge = document.getElementById('secondFileMerge');
+    const downloadLinkMerge = document.getElementById('downloadLinkMerge');
+    // split
+    const splitPdfBtn = document.getElementById('splitPdfBtn');
+    const splitPdf = document.getElementById('splitPdf');
+    const downloadLinkSplit = document.getElementById('downloadLinkSplit');
+    // compress
+    const compressPdfBtn = document.getElementById('compressPdfBtn');
+    const compressPdf = document.getElementById('compressPdf');
+    const downloadLinkCompress = document.getElementById('downloadLinkCompress');
+    // JpgtoPdf
+    const JpgtoPdfBtn = document.getElementById('JpgtoPdfBtn');
+    const JpgtoPdfUpload = document.getElementById('JpgtoPdfUpload');
+    const downloadLinkJpg = document.getElementById('downloadLinkJpg');
+    // PdftoJpg
+    const PdftoJpgBtn = document.getElementById('PdftoJpgBtn');
+    const PdftoJpgUpload = document.getElementById('PdftoJpgUpload');
+    const downloadLinkPdf = document.getElementById('downloadLinkPdf');
+
+    const Public_Key = 'project_public_e1c36a52ff8a00f4a9fa1f729d25c0ff_i5N-F9ea6436dd89d1348d3440f04aa9a7af';
+
+    //merge
+    mergePdfBtn.addEventListener('click', async () => {
+        const file1 = firstFileMerge.files[0];
+        const file2 = secondFileMerge.files[0];
+        if (file1 && file2) {
+            try {
+                // Create a task
+                const formData = new FormData();
+                formData.append('file', file1);
+                formData.append('file', file2);
+
+                const response = await fetch('https://api.ilovepdf.com/v1/merge?public_key=' + Public_Key, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`I Love PDF API error: ${response.status} ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "merged.pdf";
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error('Error in PDF conversion:', e);
+            }
+        } else {
+            alert('Please select two files to merge.');
+        }
+    });
+
+    //split
+    splitPdfBtn.addEventListener('click', async () => {
+        const file = splitPdf.files[0];
+        if (file) {
+            try {
+                // Create a task
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('https://api.ilovepdf.com/v1/split?public_key=' + Public_Key, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`I Love PDF API error: ${response.status} ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "split.pdf";
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error('Error in PDF conversion:', e);
+            }
+        } else {
+            alert('Please select a file.');
+        }
+    });
+
+    //compress
+    compressPdfBtn.addEventListener('click', async () => {
+        const file = compressPdf.files[0];
+        if (file) {
+            try {
+                // Create a task
+                const formData = new FormData();
+                formData.append('file', file);
+                const response = await fetch('https://api.ilovepdf.com/v1/compress?public_key=' + Public_Key, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`I Love PDF API error: ${response.status} ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "compress.pdf";
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error('Error in PDF conversion:', e);
+            }
+        } else {
+            alert('Please select a file.');
+        }
+    });
+
+    //jpgtopdf
+    JpgtoPdfBtn.addEventListener('click', async () => {
+        const file = JpgtoPdfUpload.files[0];
+        if (file) {
+            try {
+                // Create a task
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('https://api.ilovepdf.com/v1/jpgtopdf?public_key=' + Public_Key, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`I Love PDF API error: ${response.status} ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "jpgtopdf.pdf";
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error('Error in PDF conversion:', e);
+            }
+        } else {
+            alert('Please select a file.');
+        }
+    });
+
+    //pdftojpg
+    PdftoJpgBtn.addEventListener('click', async () => {
+        const file = PdftoJpgUpload.files[0];
+        if (file) {
+            try {
+                // Create a task
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('https://api.ilovepdf.com/v1/pdftojpg?public_key=' + Public_Key, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`I Love PDF API error: ${response.status} ${response.statusText}`);
+                }
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "pdftojpg.zip";
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error('Error in PDF conversion:', e);
+            }
+        } else {
+            alert('Please select a file.');
+        }
+    });
+
+    // -----
+
+    // ---- Remove Background functions ----
     async function removeBg(imageUrl, apiKey) {
-      const base64Image = await convertImageToBase64(imageUrl);
-      try {
-        const response = await fetch('https://api.remove.bg/v1.0/removebg', {
-          method: 'POST',
-          headers: {
-            'X-Api-Key': apiKey,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            image_file_b64: base64Image,
-            size: "auto"
-          }),
-        });
+        const base64Image = await convertImageToBase64(imageUrl);
+        try {
+            const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': apiKey,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image_file_b64: base64Image,
+                    size: "auto"
+                }),
+            });
 
-        if (!response.ok) {
-          throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
+            if (!response.ok) {
+                throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+
+        } catch (error) {
+            throw new Error("Remove bg failed");
         }
-
-        const blob = await response.blob();
-        return URL.createObjectURL(blob);
-
-      } catch (error) {
-        throw new Error("Remove bg failed");
-      }
     }
-        async function removeBgChangeBackground(imageUrl, color, apiKey) {
-      const base64Image = await convertImageToBase64(imageUrl);
+    async function removeBgChangeBackground(imageUrl, color, apiKey) {
+        const base64Image = await convertImageToBase64(imageUrl);
 
-      try {
-        const response = await fetch('https://api.remove.bg/v1.0/removebg', {
-          method: 'POST',
-          headers: {
-            'X-Api-Key': apiKey,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            image_file_b64: base64Image,
-            bg_color: color
-          }),
-        });
+        try {
+            const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': apiKey,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image_file_b64: base64Image,
+                    bg_color: color
+                }),
+            });
 
-        if (!response.ok) {
-          throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
+            if (!response.ok) {
+                throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+
+        } catch (error) {
+            throw new Error("Remove bg failed");
         }
-
-        const blob = await response.blob();
-        return URL.createObjectURL(blob);
-
-      } catch (error) {
-        throw new Error("Remove bg failed");
-      }
     }
 
     async function removeBgAddShadow(imageUrl, apiKey) {
-      const base64Image = await convertImageToBase64(imageUrl);
-      try {
-        const response = await fetch('https://api.remove.bg/v1.0/removebg', {
-          method: 'POST',
-          headers: {
-            'X-Api-Key': apiKey,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            image_file_b64: base64Image,
-            shadow: true
-          }),
-        });
+        const base64Image = await convertImageToBase64(imageUrl);
+        try {
+            const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+                method: 'POST',
+                headers: {
+                    'X-Api-Key': apiKey,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image_file_b64: base64Image,
+                    shadow: true
+                }),
+            });
 
-        if (!response.ok) {
-          throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
+            if (!response.ok) {
+                throw new Error(`remove.bg API error: ${response.status} ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+
+        } catch (error) {
+            throw new Error("Remove bg failed");
         }
-
-        const blob = await response.blob();
-        return URL.createObjectURL(blob);
-
-      } catch (error) {
-        throw new Error("Remove bg failed");
-      }
     }
 
     function simulateProgress(progressBar, callback) {
@@ -329,26 +472,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
 
-      function convertImageToBase64(imageUrl) {
-      return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.crossOrigin = 'anonymous'; // Important for security with images from other domains
+    function convertImageToBase64(imageUrl) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous'; // Important for security with images from other domains
 
-          img.onload = () => {
-              const canvas = document.createElement('canvas');
-              canvas.width = img.width;
-              canvas.height = img.height;
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(img, 0, 0);
-              const dataURL = canvas.toDataURL('image/png'); // Or 'image/jpeg', depending on your needs
-              resolve(dataURL.substring(dataURL.indexOf(',') + 1)); // Remove the "data:image/png;base64," prefix
-          };
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                const dataURL = canvas.toDataURL('image/png'); // Or 'image/jpeg', depending on your needs
+                resolve(dataURL.substring(dataURL.indexOf(',') + 1)); // Remove the "data:image/png;base64," prefix
+            };
 
-          img.onerror = (error) => {
-              reject(error);
-          };
+            img.onerror = (error) => {
+                reject(error);
+            };
 
-          img.src = imageUrl;
-      });
+            img.src = imageUrl;
+        });
     }
 });
